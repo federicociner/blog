@@ -66,8 +66,8 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `Federico Ciner personal website`,
-        short_name: `FCinerWebsite`,
+        name: `Federico Ciner - My Personal Site`,
+        short_name: `Federico Ciner`,
         start_url: `/`,
         background_color: `#ffffff`,
         theme_color: `#663399`,

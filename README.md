@@ -1,5 +1,7 @@
 # federicociner
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/d83e7b9a-4e4d-4dc5-a8ea-a75fc16a1276/deploy-status)](https://app.netlify.com/sites/federicociner/deploys)
+
 My personal website, a static site created with Gatsby and hosted on Netlify. Currently, it contains the following components:
 
 * __About Me__: A short description of who I am and what I do.
