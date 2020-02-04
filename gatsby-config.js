@@ -72,7 +72,7 @@ module.exports = {
         background_color: `#ffffff`,
         theme_color: `#663399`,
         display: `minimal-ui`,
-        icon: `content/assets/ouroboros.png` // favicon
+        icon: `content/assets/favicon.png`
       }
     },
     {
