@@ -5,7 +5,7 @@ import Bio from "../components/bio";
 import Layout from "../components/layout";
 import Navigation from "../components/nav";
 
-class IndexPage extends React.Component {
+class AboutPage extends React.Component {
   render() {
     const { data } = this.props;
     const siteTitle = data.site.siteMetadata.title;
@@ -30,4 +30,4 @@ export const pageQuery = graphql`
   }
 `;
 
-export default IndexPage;
+export default AboutPage;

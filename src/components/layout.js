@@ -10,17 +10,19 @@ class Layout extends React.Component {
     const rootPath = `${__PATH_PREFIX__}/`;
     const aboutPath = `${__PATH_PREFIX__}/about/`;
     const blogPath = `${__PATH_PREFIX__}/blog/`;
+    const resumePath = `${__PATH_PREFIX__}/resume/`;
     let header;
 
     if (
       location.pathname === rootPath ||
+      location.pathname === aboutPath ||
       location.pathname === blogPath ||
-      location.pathname === aboutPath
+      location.pathname === resumePath
     ) {
       header = (
         <h1
           style={{
-            ...scale(1.5),
+            ...scale(2),
             marginBottom: rhythm(1.5),
             marginTop: 0
           }}

@@ -17,9 +17,17 @@ class IndexPage extends React.Component {
           title="Home"
           keywords={[`blog`, `gatsby`, `javascript`, `react`]}
         />
-        <img style={{ margin: 0 }} src="./GatsbyScene.svg" alt="Gatsby Scene" />
-        <h1> Welcome to my site.</h1>
-        <p>Welcome to your new Gatsby website. You are on your home page.</p>
+        <h1>Hello.</h1>
+        <p>Welcome to my website, hope you enjoy your stay!</p>
+        <img
+          style={{ margin: 0, border: "0.1px solid black" }}
+          src="./torres.svg"
+          alt="Torres del Paine"
+        />
+        <small>
+          The result of trying to convert a picture of me hiking in Torres del
+          Paine National Park to an SVG image.
+        </small>
       </Layout>
     );
   }

@@ -18,6 +18,8 @@ To build and run this website locally, you will need to have `npm` and `gatsby-c
    cd federicociner.com
    ```
 
+1. Install all required packages by running `npm build` in the root of the project, which will install all required modules to the `node_modules` folder.
+
 1. To run a local development server, run:
 
    ```sh
