@@ -18,7 +18,7 @@ class Tags extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <Navigation />
-        <SEO title="All tags" />
+        <SEO title="Tags" />
         <div>
           <h1>Tags</h1>
           <ul>

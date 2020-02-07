@@ -5,6 +5,7 @@ import { graphql } from "gatsby";
 import Bio from "../components/bio";
 import Layout from "../components/layout";
 import Navigation from "../components/nav";
+import SEO from "../components/seo";
 
 class AboutPage extends React.Component {
   render() {
@@ -13,6 +14,7 @@ class AboutPage extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
+        <SEO title="About Me" />
         <Navigation />
         <h1> About Me</h1>
         <Bio />

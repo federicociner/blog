@@ -18,7 +18,7 @@ class Blog extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <Navigation />
-        <SEO title="All posts" />
+        <SEO title="Blog" />
         <div style={{ margin: "20px 0 40px" }}>
           {posts.map(({ node }) => {
             const title = node.frontmatter.title || node.fields.slug;

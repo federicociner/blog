@@ -5,6 +5,7 @@ import { graphql, Link } from "gatsby";
 import Button from "../components/button";
 import Layout from "../components/layout";
 import Navigation from "../components/nav";
+import SEO from "../components/seo";
 
 class ResumePage extends React.Component {
   state = {
@@ -18,6 +19,7 @@ class ResumePage extends React.Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
+        <SEO title="Resume" />
         <Navigation />
         <p>Click below to download a copy of my resume.</p>
         <a href="https://drive.google.com/file/d/1fMqBTwdmJ_FbOlZ23On-_51EfRKcX1yG/view?usp=sharing">
