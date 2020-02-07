@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "gatsby";
 import styled from "styled-components";
 
+// Utilities
 import { rhythm, scale } from "../utils/typography";
 
 class Layout extends React.Component {

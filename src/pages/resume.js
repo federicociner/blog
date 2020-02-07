@@ -1,10 +1,10 @@
 import React from "react";
-import { graphql } from "gatsby";
+import { graphql, Link } from "gatsby";
 
+// Components
+import Button from "../components/button";
 import Layout from "../components/layout";
 import Navigation from "../components/nav";
-import { Document, Page } from "react-pdf/dist/entry.webpack";
-import "react-pdf/dist/Page/AnnotationLayer.css";
 
 class ResumePage extends React.Component {
   state = {
@@ -19,15 +19,10 @@ class ResumePage extends React.Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <Navigation />
-        <p>My resume, developed in LaTeX.</p>
-        <Document
-          file="/resume.pdf"
-          onLoadSuccess={this.onDocumentLoadSuccess}
-          renderMode="svg"
-        >
-          <Page pageNumber={pageNumber} scale={1.25} />
-        </Document>
-        <br></br>
+        <p>Click below to download a copy of my resume.</p>
+        <a href="https://drive.google.com/file/d/1fMqBTwdmJ_FbOlZ23On-_51EfRKcX1yG/view?usp=sharing">
+          <Button marginBottom="15px">Resume</Button>
+        </a>
         <p>Last updated on February 5, 2020.</p>
       </Layout>
     );

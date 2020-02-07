@@ -1,9 +1,12 @@
 import React from "react";
 import { Link, graphql } from "gatsby";
 
+// Components
 import Layout from "../components/layout";
 import Navigation from "../components/nav";
 import SEO from "../components/seo";
+
+// Utilities
 import { rhythm } from "../utils/typography";
 
 class Blog extends React.Component {
@@ -70,7 +73,6 @@ export const pageQuery = graphql`
             date(formatString: "MMMM DD, YYYY")
             title
             description
-            tags
           }
         }
       }

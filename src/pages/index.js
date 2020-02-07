@@ -1,9 +1,10 @@
 import React from "react";
 import { graphql } from "gatsby";
 
+// Components
 import Layout from "../components/layout";
-import SEO from "../components/seo";
 import Navigation from "../components/nav";
+import SEO from "../components/seo";
 
 class IndexPage extends React.Component {
   render() {
@@ -18,7 +19,7 @@ class IndexPage extends React.Component {
           keywords={[`blog`, `gatsby`, `javascript`, `react`]}
         />
         <h1>Hello.</h1>
-        <p>Welcome to my website, hope you enjoy your stay!</p>
+        <p>Welcome to my website, I hope you enjoy your stay!</p>
         <img
           style={{ margin: 0, border: "0.1px solid black" }}
           src="./torres.svg"

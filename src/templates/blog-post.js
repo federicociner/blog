@@ -2,11 +2,14 @@ import React from "react";
 import { Link, graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 
+// Components
 import Layout from "../components/layout";
 import SEO from "../components/seo";
+
+// Utilities
 import { rhythm, scale } from "../utils/typography";
 
-class BlogPostTemplate extends React.Component {
+class BlogPost extends React.Component {
   render() {
     const post = this.props.data.mdx;
     const siteTitle = this.props.data.site.siteMetadata.title;
@@ -65,7 +68,7 @@ class BlogPostTemplate extends React.Component {
   }
 }
 
-export default BlogPostTemplate;
+export default BlogPost;
 
 export const pageQuery = graphql`
   query BlogPostBySlug($slug: String!) {
@@ -83,7 +86,6 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
-        tags
       }
     }
   }

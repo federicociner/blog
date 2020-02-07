@@ -1,6 +1,7 @@
 import React from "react";
 import { graphql } from "gatsby";
 
+// Components
 import Bio from "../components/bio";
 import Layout from "../components/layout";
 import Navigation from "../components/nav";
