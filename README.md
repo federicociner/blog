@@ -18,7 +18,7 @@ To build and run this website locally, you will need to have `npm` and `gatsby-c
    cd federicociner.com
    ```
 
-1. Install all required packages by running `npm build` in the root of the project, which will install all required modules to the `node_modules` folder.
+1. Install required packages locally by running `npm build` in the root of the project, which will download required modules to the `node_modules` folder.
 
 1. To run a local development server, run:
 
@@ -40,3 +40,9 @@ Here's a list of tutorials and resources I used while creating this website:
 
 1. [Making a Gatsby Blog with Netlify CMS](https://www.gatsbyjs.org/tutorial/blog-netlify-cms-tutorial/)
 1. [Typography.js](https://kyleamathews.github.io/typography.js/)
+
+## TODO
+
+- Add `Contact` page with mail form.
+- Add social media button bar for Facebook, LinkedIn and GitHub.
+- Create `Resume` page with download link to PDF version.

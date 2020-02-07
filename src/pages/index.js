@@ -22,7 +22,7 @@ class IndexPage extends React.Component {
         <img
           style={{ margin: 0, border: "0.1px solid black" }}
           src="./torres.svg"
-          alt="Torres del Paine"
+          alt="Hiking in Torres del Paine."
         />
         <small>
           The result of trying to convert a picture of me hiking in Torres del

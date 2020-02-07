@@ -16,6 +16,9 @@ class Navigation extends React.Component {
         <Link style={{ textDecoration: "none" }} to="/resume/">
           <Button>Resume</Button>
         </Link>
+        <Link style={{ textDecoration: "none" }} to="/tags/">
+          <Button>Tags</Button>
+        </Link>
       </div>
     );
   }

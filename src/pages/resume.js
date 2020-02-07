@@ -8,17 +8,12 @@ import "react-pdf/dist/Page/AnnotationLayer.css";
 
 class ResumePage extends React.Component {
   state = {
-    numPages: null,
     pageNumber: 1
-  };
-
-  onDocumentLoadSuccess = ({ numPages }) => {
-    this.setState({ numPages });
   };
 
   render() {
     const { data } = this.props;
-    const { pageNumber, numPages } = this.state;
+    const { pageNumber } = this.state;
     const siteTitle = data.site.siteMetadata.title;
 
     return (
