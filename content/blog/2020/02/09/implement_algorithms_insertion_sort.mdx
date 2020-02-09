@@ -1,0 +1,64 @@
+---
+title: "Implementing Algorithms in Python: Insertion-Sort"
+date: "2020-02-09"
+description: "A simple implementation of insertion-sort in Python."
+tags:
+  [
+    "algorithms",
+    "arrays",
+    "blog",
+    "data structures",
+    "interviews",
+    "programming",
+    "python",
+  ]
+---
+
+## Overview
+
+As a continuation from yesterday's [post](../../08/implement_data_structures_arrays) about the various array-based sequence classes in Python, we will now look at implementing the insertion-sort algorithm, which is a simple sorting algorithm that can be used to sort array-based sequences.
+
+## Insertion Sort
+
+### Pseudocode
+
+The algorithm proceeds as follows:
+
+1. Start with the first element in the array; this element by itself is already sorted.
+2. Consider the next element in the array - if it is smaller than the first, we swap them.
+3. Consider the third element in the array - we swap it leftward until it is in its proper order with the first two elements.
+4. Consider the fourth element in the array, and swap it leftward until it is in the proper order with the first three.
+5. Continue in this manner with the remaining elements in the array until the whole array is sorted.
+
+```text
+Algorithm InsertionSort(A):
+   Input: An array A of n comparable elements
+   Output: The array A with elements rearranged in
+   non-decreasing order
+
+   for k from 1 to n - 1 do
+      Insert A[k] at proper location in A[0], A[1], ..., A[k]
+```
+
+### Implementation
+
+Below is a simple implementation of the insertion-sort algorithm in Python:
+
+```python
+def insertion_sort(A):
+    """Sort list of comparable elements into
+    non-decreasing order. """
+    for k in range(1, len(A)):
+        cur = A[k]
+        j = k
+
+        while j > 0 and A[j - 1] > cur:
+            A[j] = A[j - 1]
+            j -= 1
+
+        A[j] = cur
+```
+
+The outer loop considers each element in the list `A` in turn, and an inner loop moves a newly considered element to its proper location relative to the (sorted) subarray of elements that are to its left.
+
+The nested loops of insertion-sort lead to an $O({n^2})$ running time in the worst case. The most work is done if the array is initially in reverse order. On the other hand, if the initial array is nearly sorted or perfectly sorted, insertion-sort runs in $O({n})$ time because there are few to no iterations of the inner loop.

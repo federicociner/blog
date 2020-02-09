@@ -1,0 +1,321 @@
+---
+title: "Implementing Data Structures in Python: Array-based Sequences"
+date: "2020-02-08"
+description: "A discussion of Python's sequence types and how to implement a dynamic array."
+tags:
+  [
+    "algorithms",
+    "arrays",
+    "blog",
+    "data structures",
+    "interviews",
+    "programming",
+    "python",
+  ]
+---
+
+## Table of Contents
+
+- [Table of Contents](#table-of-contents)
+- [Motivation](#motivation)
+- [Arrays: A Primer](#arrays-a-primer)
+- [Sequence Classes in Python](#sequence-classes-in-python)
+  - [Strings](#strings)
+  - [Tuples](#tuples)
+- [Lists](#lists)
+- [Dynamic Arrays: A Basic Implementation](#dynamic-arrays-a-basic-implementation)
+- [Efficiency of Python's Sequence Types](#efficiency-of-pythons-sequence-types)
+  - [Non-mutating Behaviours](#non-mutating-behaviours)
+  - [Mutating Behaviours](#mutating-behaviours)
+- [Adding Elements to a List](#adding-elements-to-a-list)
+- [Removing Elements from a List](#removing-elements-from-a-list)
+- [Extending a List](#extending-a-list)
+- [Constructing New Lists](#constructing-new-lists)
+
+## Motivation
+
+As part of my preparation for software engineering interviews with the big technology companies, I decided to start this series of posts explaining how to implement basic data structures and algorithms in Python from scratch. I truly believe that the best, and possibly only, way to really learn data structures and algorithms correctly is to implement them and run a few examples with actual data.
+
+Recently, I took a graduate-level algorithms class as part of my masters in computer science. Although the content was fascinating and useful to know, I did not really feel like it "stuck" with me as well as the material from other, more project-heavy courses that were all about low-level implementation details.
+
+I will be using the excellent [Data Structures and Algorithms in Python](https://www.amazon.com/Structures-Algorithms-Python-Michael-Goodrich/dp/1118290275), by Michael T. Goodrich, Roberto Tamassia, and Michael H. Goldwasser, for the majority of the code examples and explanations.
+
+Additionally, I will also be including discussion around the time and space complexity of various associated operations of that particular data structure. For example, in a dynamic array, we can look at the runtime of indexing, insertion and deletion operations.
+
+## Arrays: A Primer
+
+An array is a data structure that contains a collection of elements that are stored one after another in a contiguous portion of memory. Each element in the array can be identified by at least one **index** or **key**. Each location within the array is a called **cell**, and typically we will use a non-negative scalar integer index to describe its location within the array.
+
+Most array implementations, at least in the most common languages such as C, C++, Python, and Java, used zero-based indexing, which means that the first element of the array is indexed by a subscript of 0. Furthermore, arrays can have multiple dimensions, with the simplest type of array being a one-dimensional array. We can see an example of a one-dimensional array of strings in the code snippet below using Python's `list` type, which is really just a dynamic array under the hood (more on this later):
+
+```python
+>>> a = ["foo", "bar", "thelma", "louise"]
+>>> a[0]  # selects the first element
+'foo'
+>>> a[3]  # selects the last element
+'louise'
+>>> a[4] # throws an IndexError as the array has only 4 elements
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+IndexError: list index out of range
+```
+
+The basic **store** and **select** operations of an array have an $O(1)$ or constant time worst-case time complexity. Furthermore, an array takes linear or $O({n})$ space in the number of elements ${n}$ that it holds.
+
+## Sequence Classes in Python
+
+Python has three built-in "sequence" classes which use the low-level array data structure to represent the sequence: the `list`, `tuple`, and `str` classes.
+
+### Strings
+
+Perhaps the simplest of these is the `str` class, which is Python's way of representing strings. A `str` object is represented as an array of characters known as a **compact array**, since the array is only storing the bits that represent the primitive data type (in this case, a character or `char`). Since strings in Python are immutable, the size of the underlying array is fixed when the object is instantiated.
+
+### Tuples
+
+A `tuple` is an immutable and ordered collection of elements. A `tuple` supports storing objects of different types, thus it actually uses an internal storage mechanism of an array of object references, which are the memory locations where the actual elements reside. Furthermore, since objects in a tuple cannot be deleted or replaced by new objects, the size of the underlying array is also fixed at object creation time. However, this only applies to tuples that exclusively contain _hashable_ objects. Tuples which contain only immutable objects are immutable, and tuples which contain mutable objects, such as lists, are mutable and unhashable.
+
+```python
+>>> t = ("hello", "world")
+>>> hash(t)  # hashable and therefore immutable
+-2750831484136530959
+>>> t2 = ("hello", [1, 2, 3])
+>>> hash(t2)  # unhashable and therefore mutable
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+TypeError: unhashable type: 'list'
+```
+
+## Lists
+
+Last but not least, a Python `list` is a mutable, ordered collection of elements which allows us to add or remove elements. Like the `tuple`, it also uses an array of object references In order to provide these additional operations, the `list` class is implemented as a **dynamic array**.
+
+When a low-level array is created in C, like the example below, the precise size of that array must be explicitly declared so that the system can properly allocate a contiguous piece of memory for its storage.
+
+```c
+/* An array of characters with a length of 5 */
+char word[5] = {'h', 'e', 'l', 'l', 'o'};
+```
+
+Because the system might allocate neighbouring memory locations to store other data, the capacity of an array cannot be trivially increased by expanding into subsequent cells. Therefore, an instance of the `list` class will maintain an underlying array that often has a greater capacity, or additional cells, than the current length of the array. This makes it easy to append a new element to the list by using the next available cell of the array. When a user continues to append elements to a list, any reserved capacity will eventually be exhausted. When this happens, two things occur:
+
+1. The class requests a new, larger array from the system and initializes this new array so that its prefix matches the old, smaller array.
+2. The old array is no longer needed, and therefore its memory is reclaimed by the system.
+
+## Dynamic Arrays: A Basic Implementation
+
+The code below represents how a dynamic array, for which Python's `list` provides a highly optimized implementation, might be implemented. We need to provide a means of growing the array ${A}$ which stores the element of a list. Since the capacity of ${A}$ is fixed when it is first created, if an element is appended to a list at a time when the underlying array is full, we can perform the following steps:
+
+1. Allocate a new array ${B}$ with larger capacity.
+2. Set ${B[i] = A[i]}$ for ${i = 0, ..., n - 1}$, where ${n}$ is the current number of elements.
+3. Set ${A = B}$, that is, we henceforth use ${B}$ as the array supporting the list.
+4. Insert the new element in the new array.
+
+A commonly used rule for how to expand the existing array is to have _twice_ the capacity of the existing array that has been filled.
+
+For this implementation, we will use the `ctypes` module, which allows us to use existing libraries in other languages by writing simple wrappers in Python itself.
+
+```python
+import ctypes
+
+
+class DynamicArray:
+    """A dynamic array class, akin to a simplified Python
+    list. """
+
+    def __init__(self):
+        """Create an empty array."""
+        self._n = 0
+        self._capacity = 1  # default capacity
+        self._A = self._make_array(self._capacity)
+
+    def __len__(self):
+        """Return the number of elements stored in the
+        array. """
+        return self._n
+
+    def __getitem__(self, k):
+        """Return element at index k. """
+        if not 0 <= k < self._n:
+            raise IndexError("invalid index")
+
+        return self._A[k]
+
+    def append(self, obj):
+        """Add an element to the end of the array. If there
+        isn't enough capacity, double the size of the
+        array. """
+        if self._n == self._capacity:
+            self._resize(2 * self._capacity)
+        self._A[self._n] = obj
+        self._n += 1
+
+    def _resize(self, c):
+        """Resize internal array to capacity c. """
+        B = self._make_array(c)
+
+        for k in range(self._n):
+            B[k] = self._A[k]
+
+        self._A = B
+        self._capacity = c
+
+    def _make_array(self, c):
+        """Return a new array with capacity c. """
+        return (c * ctypes.py_object)()
+```
+
+Here's an example where we initialize an instance of `DynamicArray` and add three elements.
+
+```python
+>>> A = DynamicArray()
+>>> print(len(A))
+0
+>>> A.append("a")
+>>> print(len(A))
+1
+>>> A.append("b")
+>>> print(len(A))
+2
+>>> A.append("c")
+>>> print(len(A))
+3
+>>> print(A._capacity)
+4
+```
+
+As expected, after we append the elements "a", "b", and "c", the length of the array, as denoted by the `A._n` variable, is 3. However, the capacity is 4, as denoted by `A._capacity`. This is because the capacity of the array doubled twice, the first time from the initial capacity of 1 to 2, and the second time from 2 to 4.
+
+A dynamic array has a similar performance to that of a normal array, with the addition of the new operations to add and remove elements. Here are the running times of some common operations for a dynamic array with ${n}$ elements:
+
+- Getting or setting the value at a particular index: $O(1)$ or constant time
+- Iterating over the elements in order: $O({n})$ or linear time
+- Inserting or deleting an element in the middle of the array: $O({n})$ or linear time
+- Inserting or deleting an element at the end of the array: $O(1)$ or constant amortized time
+
+## Efficiency of Python's Sequence Types
+
+### Non-mutating Behaviours
+
+The table below describes the running time for various non-mutating behaviours for the `list` and `tuple` classes. In this table, identifiers ${data}$, ${data1}$, and ${data2}$ designate instances of the `list` and `tuple` class, and ${n}$, ${n_{1}}$ and ${n_{2}}$ their respective lengths. For the containment check and `index` method, ${k}$ represents the index of the leftmost occurrence (with ${k}$ = ${n}$ if there is no occurrence). For comparisons between two sequences, ${k}$ is equal to the leftmost index at which they disagree or else ${k}$ = ${min(n_{1}, n_{2})}$.
+
+| Operation           | Running Time        |
+| ------------------- | ------------------- |
+| `len(data)`         | $O(1)$              |
+| `data[i]`           | $O(1)$              |
+| `data.count(value)` | $O({n})$            |
+| `data.index(value)` | $O({k + 1})$        |
+| `value in data`     | $O({k + 1})$        |
+| `data1 == data2`    | $O({k + 1})$        |
+| `data[j:k]`         | $O({k - j + 1})$    |
+| `data1 + data2`     | $O({n_{1}+ n_{2}})$ |
+| `c * data`          | $O({cn})$           |
+
+### Mutating Behaviours
+
+The table below describes the running time of various mutating behaviours for the `list` and `tuple` classes. As with the table above, the identifiers ${data}$, ${data1}$, and ${data2}$ designate instances of the `list` and `tuple` class, and ${n}$, ${n_{1}}$ and ${n_{2}}$ their respective lengths.
+
+| Operation                                   | Running Time       |
+| ------------------------------------------- | ------------------ |
+| `data[i] = val`                             | $O(1)$             |
+| `data.append(value)`                        | $O(1)$\*           |
+| `data.insert(k ,value)`                     | $O({n - k + 1})$\* |
+| `data.pop()`                                | $O(1)$\*           |
+| `data.pop(k)`<br/>`del data[k]`             | $O({n- k})$\*      |
+| `data.remove(value)`                        | $O({n})$\*         |
+| `data1.extend(data2)`<br/> `data1 += data2` | $O({n_{2}})$\*     |
+| `data.reverse()`                            | $O({n})$           |
+| `data.sort()`                               | $O(n\log{}n)$      |
+
+<div style="text-align: right">
+  <i>* Amortized</i>
+</div>
+
+## Adding Elements to a List
+
+Our original `DynamicArray` class initially had one public method, the `append` method. In the worst case, this method requires $\Omega({n})$ time because the underlying array is resized, but it uses $O(1)$ time in the amortized sense. The Python `list` also supports an insertion method with the signature `insert(k, value)`, which inserts a given value into the list at index 0 $\leq$ ${k}$ $\leq$ ${n}$. We can implement the `insert` method in the context of the [`DynamicArray`](#dynamic-arrays-a-basic-implementation) class that we previously implemented:
+
+```python
+def insert(self, k, value):
+    """Insert value at index k, shifting subsequent values
+    rightward. """
+
+    if self._n == self._capacity:
+        self._resize(2 * self._capacity)
+
+    for i in range(self._n, k, -1):
+        self._A[i] = self._A[i - 1]
+    self._A[k] = value
+    self._n += 1
+```
+
+There are two main two factors that impact the running time of this operation:
+
+- The addition of one element may require resizing the dynamic array, which requires $\Omega({n})$ worst-case time but only $O(1)$ amortized
+- We have to shift elements to make room for the new item, which depends on the index of the new element and therefore the number of elements that must be shifted:
+  - Inserting at the beginning of the list is the most expensive, requiring linear time per operation
+  - Inserting near the middle requires about half the time as inserting at the beginning, but it is still $\Omega({n})$ time
+  - Inserting at the end displays $O(1)$ behaviour
+
+Overall, this leads to an amortized $O({n - k + 1})$ performance for inserting at index ${k}$.
+
+## Removing Elements from a List
+
+There are several ways to remove an element from a Python `list`:
+
+- A call to the `pop()` operation removes the last element from the list. This is most efficient since all other elements remain in their original location, and is effectively an $O(1)$ operation with an amortized bound, since Python will occasionally shrink the underlying dynamic array to conserve memory.
+- The parameterised version, `pop(k)`, removes the element that is at index ${k}$ $<$ ${n}$, shifting all subsequent elements leftward to fill the gap that results from the removal. This operation takes $O({n - k})$ time, as the amount of shifting depends upon the choice of ${k}$. This implies that `pop(0)` is the most expensive call, using $\Omega({n})$ time.
+- The `remove(value)` method allows the caller to specify the _value_ that should be removed, not the _index_ at which it resides. It will remove only the first occurrence of such a value from a list, or raise a `ValueError` if no such value is found.
+
+Here, we will implement the `remove` method in the context of our custom [`DynamicArray`](#dynamic-arrays-a-basic-implementation) class:
+
+```python
+def remove(self, value):
+    """Remove first occurrence of value, or raise
+    ValueError. """
+
+    for k in range(self._n):
+        if self._A[k] == value:
+            for j in range(k, self._n - 1):
+                self._A[j] = self._A[j + 1]
+            self._A[self._n - 1] = None
+            self._n -= 1
+            return
+        raise ValueError("value not found")
+```
+
+There is no "efficient" case for `remove`; every call requires $\Omega({n})$ time, since one part of the process searches from the beginning until finding the value at index ${k}$, while the rest iterates from ${k}$ to the end in order to shift elements leftward.
+
+## Extending a List
+
+In addition to adding and removing elements, the `list` class has an `extend` method which can be used to add all elements of one list to the end of a second list. Calling `data.extend(other)` produces the same outcome as the following code:
+
+```python
+for element in other:
+    data.append(element)
+```
+
+The running time is proportional to the length of the other list, and amortized because the underlying array for the first list may be resized to accommodate the additional elements. The `extend` method is preferable to repeated calls to `append` because the constant factors hidden in the asymptotic analysis are significantly smaller. There are three primary reasons why `extend` is more efficient:
+
+1. There is less overhead to a single function call that accomplishes all the work versus many individual function calls
+2. There is an advantage to using a Python method because those methods tend to be implemented natively in a compiled language, for example C in the case of CPython.
+3. The resulting size of the updated list can be calculated in advance. If the second data set is large, there is some risk that the underlying dynamic array might be resized multiple times when using repeated calls to `append`. With a single call to `extend`, at most one resize operation will be performed.
+
+## Constructing New Lists
+
+Python has several syntaxes for constructing new lists, but in almost all cases the asymptotic efficiency is linear in the length of the list that is created.
+
+- List comprehension
+
+  ```python
+  [k * k for k in range(1, n + 1)]
+  ```
+
+- Loops
+
+  ```python
+  squares = []
+  for k in range(1, n + 1):
+      squares.append(k * k)
+  ```
+
+Using a list comprehension is significantly faster than building the list by repeatedly appending, since there are fewer high-level instructions to execute in each cycle and an optimized `LIST_APPEND` operation in Python's bytecode is used to append values to the list.

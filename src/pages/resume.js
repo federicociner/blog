@@ -1,5 +1,5 @@
 import React from "react";
-import { graphql, Link } from "gatsby";
+import { graphql } from "gatsby";
 
 // Components
 import Button from "../components/button";
@@ -14,7 +14,6 @@ class ResumePage extends React.Component {
 
   render() {
     const { data } = this.props;
-    const { pageNumber } = this.state;
     const siteTitle = data.site.siteMetadata.title;
 
     return (
