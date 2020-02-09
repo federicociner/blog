@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link } from "gatsby";
 
 // Components
 import Button from "../components/button";
 
-class Navigation extends React.Component {
+class Navigation extends Component {
   render() {
     return (
       <div style={{ display: "flex", marginBottom: "25px" }}>

@@ -1,7 +1,7 @@
 ---
-title: "Implementing Data Structures in Python: Array-based Sequences"
+title: "Data Structures in Python: Arrays"
 date: "2020-02-08"
-description: "A discussion of Python's sequence types and how to implement a dynamic array."
+description: "A discussion of Python's array-based sequence types and how to implement a dynamic array."
 tags:
   [
     "algorithms",
@@ -13,26 +13,6 @@ tags:
     "python",
   ]
 ---
-
-## Table of Contents
-
-- [Table of Contents](#table-of-contents)
-- [Motivation](#motivation)
-- [Arrays: A Primer](#arrays-a-primer)
-- [Sequence Classes in Python](#sequence-classes-in-python)
-  - [Strings](#strings)
-  - [Tuples](#tuples)
-- [Lists](#lists)
-- [Dynamic Arrays: A Basic Implementation](#dynamic-arrays-a-basic-implementation)
-- [Efficiency of Python's Sequence Types](#efficiency-of-pythons-sequence-types)
-  - [Non-mutating Behaviours](#non-mutating-behaviours)
-  - [Mutating Behaviours](#mutating-behaviours)
-- [Adding Elements to a List](#adding-elements-to-a-list)
-- [Removing Elements from a List](#removing-elements-from-a-list)
-- [Extending a List](#extending-a-list)
-- [Constructing New Lists](#constructing-new-lists)
-
-## Motivation
 
 As part of my preparation for software engineering interviews with the big technology companies, I decided to start this series of posts explaining how to implement basic data structures and algorithms in Python from scratch. I truly believe that the best, and possibly only, way to really learn data structures and algorithms correctly is to implement them and run a few examples with actual data.
 
@@ -46,7 +26,7 @@ Additionally, I will also be including discussion around the time and space comp
 
 An array is a data structure that contains a collection of elements that are stored one after another in a contiguous portion of memory. Each element in the array can be identified by at least one **index** or **key**. Each location within the array is a called **cell**, and typically we will use a non-negative scalar integer index to describe its location within the array.
 
-Most array implementations, at least in the most common languages such as C, C++, Python, and Java, used zero-based indexing, which means that the first element of the array is indexed by a subscript of 0. Furthermore, arrays can have multiple dimensions, with the simplest type of array being a one-dimensional array. We can see an example of a one-dimensional array of strings in the code snippet below using Python's `list` type, which is really just a dynamic array under the hood (more on this later):
+Most array implementations, at least in common languages such as C, C++, Python, and Java, use zero-based indexing, which means that the first element of the array is indexed by a subscript of 0. Furthermore, arrays can have multiple dimensions, with the simplest type of array being a one-dimensional array. We can see an example of a one-dimensional array of strings in the code snippet below using Python's `list` type, which is really just a dynamic array under the hood (more on this later):
 
 ```python
 >>> a = ["foo", "bar", "thelma", "louise"]
@@ -164,7 +144,7 @@ class DynamicArray:
         return (c * ctypes.py_object)()
 ```
 
-Here's an example where we initialize an instance of `DynamicArray` and add three elements.
+Below is an example where we initialize an instance of `DynamicArray` and add three elements. You can also download the sample Python source code file [here](sample_dynamic_array.py).
 
 ```python
 >>> A = DynamicArray()

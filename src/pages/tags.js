@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 
 // Components
 import { Link, graphql } from "gatsby";
@@ -9,7 +9,7 @@ import SEO from "../components/seo";
 // Utilities
 import kebabCase from "lodash/kebabCase";
 
-class Tags extends React.Component {
+class Tags extends Component {
   render() {
     const { data } = this.props;
     const siteTitle = data.site.siteMetadata.title;

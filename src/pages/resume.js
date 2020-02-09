@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { graphql } from "gatsby";
 
 // Components
@@ -7,7 +7,7 @@ import Layout from "../components/layout";
 import Navigation from "../components/nav";
 import SEO from "../components/seo";
 
-class ResumePage extends React.Component {
+class ResumePage extends Component {
   state = {
     pageNumber: 1
   };

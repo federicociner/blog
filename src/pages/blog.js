@@ -1,4 +1,4 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link, graphql } from "gatsby";
 
 // Components
@@ -9,7 +9,7 @@ import SEO from "../components/seo";
 // Utilities
 import { rhythm } from "../utils/typography";
 
-class Blog extends React.Component {
+class Blog extends Component {
   render() {
     const { data } = this.props;
     const siteTitle = data.site.siteMetadata.title;

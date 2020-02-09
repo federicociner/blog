@@ -1,10 +1,10 @@
-import React from "react";
+import React, { Component } from "react";
 import { Link, graphql } from "gatsby";
 
 // Components
 import Layout from "../components/layout";
 
-class Tag extends React.Component {
+class Tag extends Component {
   render() {
     const siteTitle = this.props.data.site.siteMetadata.title;
     const tag = this.props.pageContext.tag;

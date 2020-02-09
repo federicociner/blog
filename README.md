@@ -6,6 +6,7 @@ My personal website, a static site created with Gatsby and hosted on Netlify. Cu
 
 - **About Me**: A short description of who I am and what I do.
 - **Blog**: A simple blog in which in post my own random thoughts and experiences. An "anything goes" blog at this point, until I decide to narrow the focus or subject matter.
+- **Resume**: Summary of work education and work experiences, as well as a link to current version of PDF resume.
 
 ## Build and Run
 

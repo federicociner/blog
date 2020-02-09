@@ -1,0 +1,132 @@
+---
+title: "Data Structures in Python: Stacks"
+date: "2020-02-09T15:33:00+00:00"
+description: "Using Python lists to implement an array-based stack data structure."
+tags:
+  [
+    "algorithms",
+    "stacks",
+    "blog",
+    "data structures",
+    "interviews",
+    "programming",
+    "python",
+  ]
+---
+
+## Stacks: A Primer
+
+A stack is a collection of objects that are inserted and removed according to the "last-in, first-out" (LIFO) principle. Stacks are one of the simplest data structures, but also one of the most important. They are used in a variety of different applications, and also as scaffolding for more sophisticated data structures and algorithms.
+
+A stack is an abstract data type (ADT) such that an instance `S` supports the following two methods:
+
+- `S.push(e)`: Adds an element ${e}$ to the collection.
+- `S.pop()`: Removes the most recently added element that was not yet removed. If the stack is empty, an error occurs.
+
+We can define some additional accessor methods for convenience:
+
+- `S.top()`: Returns a reference to the top element of stack `S` without removing it.
+- `S.is_empty()`: Return `True` if stack `S` does not contain any elements.
+- `len(S)`: Returns the number of elements in stack `S`.
+
+## Implementing an Array-based Stack
+
+We can implement a stack by storing its elements in a Python list. However, the `list` class includes additional operations, such as adding or removing elements from arbitrary positions, that would break the abstraction that the stack ADT represents.
+
+We will be using the _adapter_ design pattern to create our stack data structure, which allows the interface of an existing class (in this case the Python `list`) to be used as another interface. We will adapt the `list` class using the correspondences in the table below:
+
+| Stack Method   | Corresponding `list` method |
+| -------------- | --------------------------- |
+| `S.push(e)`    | `L.append(e)`               |
+| `S.pop()`      | `L.pop()`                   |
+| `S.top()`      | `L[-1]`                     |
+| `S.is_empty()` | `len(L) == 0`               |
+| `len(S)`       | `len(L)`                    |
+
+We also need to define a new exception class to use when a user calls `pop` or `top` on an empty stack. In an empty `list`, calling `pop` would throw an `IndexError` but this isn't appropriate for a stack, since there is no assumption of indices. We will call this exception class `Empty`:
+
+```python
+class Empty(Exception):
+    """Error attempting to access an element from an
+    empty container. """
+    pass
+```
+
+Now, we can define an `ArrayStack` class that uses an underlying Python `list` for storage.
+
+```python
+class ArrayStack:
+    """LIFO stack implementation using a Python list as
+    underlying storage. """
+
+    def __init__(self):
+        """Create an empty stack. """
+        self._data = []
+
+    def __len__(self):
+        """Return the number of elements in the stack. """
+        return len(self._data)
+
+    def is_empty(self):
+        """Return True if the stack is empty. """
+        return len(self._data) == 0
+
+    def push(self, e):
+        """Add element e to the top of the stack. """
+        self._data.append(e)
+
+    def top(self):
+        """Return (but do not remove) the element at the
+        top of the stack. """
+        if self.is_empty():
+            raise Empty("Stack is empty")
+
+        return self._data[-1]
+
+    def pop(self):
+        """Remove and return the element from the top of
+        the stack (i.e. LIFO). """
+        if self.is_empty():
+            raise Empty("Stack is empty")
+        return self._data.pop()
+
+```
+
+Here's a simple demonstration of using the `ArrayStack` by pushing two elements to the stack, and subsequently popping them from the stack.
+
+```python
+>>> S = ArrayStack()
+>>> S.push(5)
+>>> S.push(3)
+>>> print(len(S))
+2
+>>> print(S.pop())
+3
+>>> print(S.is_empty())
+False
+>>> print(S.pop())
+5
+>>> print(S.is_empty())
+True
+```
+
+You can download sample Python source code of the implementation and examples above [here](sample_stack.py).
+
+## Asymptotic Analysis of the Array-based Stack
+
+The table below shows the running time for the `ArrayStack` methods.
+
+| Operation      | Running Time |
+| -------------- | ------------ |
+| `S.push(e)`    | $O(1)$\*     |
+| `S.pop()`      | $O(1)$\*     |
+| `S.top()`      | $O(1)$       |
+| `S.is_empty()` | $O(1)$       |
+| `len(S)`       | $O(1)$       |
+
+<div style="text-align: right">
+  <i>* Amortized</i>
+</div>
+<br></br>
+
+The $O(1)$ time for `push` and `pop` are amortized bounds; a typical call to either of these methods uses constant time, but there is occassionally an $O({n})$-time worst case, where $n$ is the current number of elements in the stack, when an operation causes the list to resize its internal array. The space usage for a stack is $O({n})$.
