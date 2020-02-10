@@ -170,7 +170,7 @@ A dynamic array has a similar performance to that of a normal array, with the ad
 - Getting or setting the value at a particular index: $O(1)$ or constant time.
 - Iterating over the elements in order: $O({n})$ or linear time.
 - Inserting or deleting an element in the middle of the array: $O({n})$ or linear time.
-- Inserting or deleting an element at the end of the array: $O(1)$ or constant amortized time.
+- Inserting or deleting an element at the end of the array: $O(1)$ or constant amortised time.
 
 ## Efficiency of Python's Sequence Types
 
@@ -194,7 +194,7 @@ The table below describes the running time for various non-mutating behaviours f
 
 The table below describes the running time of various mutating behaviours for the `list` and `tuple` classes. As with the table above, the identifiers ${data}$, ${data1}$, and ${data2}$ designate instances of the `list` and `tuple` class, and ${n}$, ${n_{1}}$ and ${n_{2}}$ their respective lengths.
 
-| Operation                                   | Running Time (\*amortized) |
+| Operation                                   | Running Time (\*amortised) |
 | ------------------------------------------- | -------------------------- |
 | `data[i] = val`                             | $O(1)$                     |
 | `data.append(value)`                        | $O(1)$\*                   |
@@ -208,7 +208,7 @@ The table below describes the running time of various mutating behaviours for th
 
 ## Adding Elements to a List
 
-Our original `DynamicArray` class initially had one public method, the `append` method. In the worst case, this method requires $\Omega({n})$ time because the underlying array is resized, but it uses $O(1)$ time in the amortized sense. The Python `list` also supports an insertion method with the signature `insert(k, value)`, which inserts a given value into the list at index 0 $\leq$ ${k}$ $\leq$ ${n}$. We can implement the `insert` method in the context of the [`DynamicArray`](#dynamic-arrays-a-basic-implementation) class that we previously implemented:
+Our original `DynamicArray` class initially had one public method, the `append` method. In the worst case, this method requires $\Omega({n})$ time because the underlying array is resized, but it uses $O(1)$ time in the amortised sense. The Python `list` also supports an insertion method with the signature `insert(k, value)`, which inserts a given value into the list at index 0 $\leq$ ${k}$ $\leq$ ${n}$. We can implement the `insert` method in the context of the [`DynamicArray`](#dynamic-arrays-a-basic-implementation) class that we previously implemented:
 
 ```python
 def insert(self, k, value):
@@ -226,19 +226,19 @@ def insert(self, k, value):
 
 There are two main two factors that impact the running time of this operation:
 
-- The addition of one element may require resizing the dynamic array, which requires $\Omega({n})$ worst-case time but only $O(1)$ amortized.
+- The addition of one element may require resizing the dynamic array, which requires $\Omega({n})$ worst-case time but only $O(1)$ amortised.
 - We have to shift elements to make room for the new item, which depends on the index of the new element and therefore the number of elements that must be shifted:
   - Inserting at the beginning of the list is the most expensive, requiring linear time per operation.
   - Inserting near the middle requires about half the time as inserting at the beginning, but it is still $\Omega({n})$ time.
   - Inserting at the end displays $O(1)$ behaviour.
 
-Overall, this leads to an amortized $O({n - k + 1})$ performance for inserting at index ${k}$.
+Overall, this leads to an amortised $O({n - k + 1})$ performance for inserting at index ${k}$.
 
 ## Removing Elements from a List
 
 There are several ways to remove an element from a Python `list`:
 
-- A call to the `pop()` operation removes the last element from the list. This is most efficient since all other elements remain in their original location, and is effectively an $O(1)$ operation with an amortized bound, since Python will occasionally shrink the underlying dynamic array to conserve memory.
+- A call to the `pop()` operation removes the last element from the list. This is most efficient since all other elements remain in their original location, and is effectively an $O(1)$ operation with an amortised bound, since Python will occasionally shrink the underlying dynamic array to conserve memory.
 - The parameterised version, `pop(k)`, removes the element that is at index ${k}$ $<$ ${n}$, shifting all subsequent elements leftward to fill the gap that results from the removal. This operation takes $O({n - k})$ time, as the amount of shifting depends upon the choice of ${k}$. This implies that `pop(0)` is the most expensive call, using $\Omega({n})$ time.
 - The `remove(value)` method allows the caller to specify the _value_ that should be removed, not the _index_ at which it resides. It will remove only the first occurrence of such a value from a list, or raise a `ValueError` if no such value is found.
 
@@ -270,7 +270,7 @@ for element in other:
     data.append(element)
 ```
 
-The running time is proportional to the length of the other list, and amortized because the underlying array for the first list may be resized to accommodate the additional elements. The `extend` method is preferable to repeated calls to `append` because the constant factors hidden in the asymptotic analysis are significantly smaller. There are three primary reasons why `extend` is more efficient:
+The running time is proportional to the length of the other list, and amortised because the underlying array for the first list may be resized to accommodate the additional elements. The `extend` method is preferable to repeated calls to `append` because the constant factors hidden in the asymptotic analysis are significantly smaller. There are three primary reasons why `extend` is more efficient:
 
 1. There is less overhead to a single function call that accomplishes all the work versus many individual function calls
 2. There is an advantage to using a Python method because those methods tend to be implemented natively in a compiled language, for example C in the case of CPython.

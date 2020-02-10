@@ -159,7 +159,7 @@ You can download a sample Python source code file of the implementation and exam
 
 The table below shows the running time for the `ArrayQueue` methods.
 
-| Operation      | Running Time (\*amortized) |
+| Operation      | Running Time (\*amortised) |
 | -------------- | -------------------------- |
 | `Q.enqueue(e)` | $O(1)$\*                   |
 | `Q.dequeue()`  | $O(1)$\*                   |
@@ -167,7 +167,7 @@ The table below shows the running time for the `ArrayQueue` methods.
 | `Q.is_empty()` | $O(1)$                     |
 | `len(Q)`       | $O(1)$                     |
 
-With the exception of the `_resize` utility, all of the methods rely on a constant number of statements involving arithmetic operations, comparisons, and assignments. Therefore, each method runs in worst-case $O(1)$ time, except for `enqueue` and `dequeue`, with have **amortized** bounds of $O(1)$ time. The space usage of a queue is $O({n})$, where ${n}$ is the current number of elements in the queue.
+With the exception of the `_resize` utility, all of the methods rely on a constant number of statements involving arithmetic operations, comparisons, and assignments. Therefore, each method runs in worst-case $O(1)$ time, except for `enqueue` and `dequeue`, with have **amortised** bounds of $O(1)$ time. The space usage of a queue is $O({n})$, where ${n}$ is the current number of elements in the queue.
 
 ## Double-Ended Queues
 
@@ -312,6 +312,6 @@ False
 6
 ```
 
-The efficiency of an `ArrayDeque` is similar to that of an `ArrayQueue`, with all operations having $O(1)$ running time, but with that bound being amortized for operations that may change the size of the underlying list.
+The efficiency of an `ArrayDeque` is similar to that of an `ArrayQueue`, with all operations having $O(1)$ running time, but with that bound being amortised for operations that may change the size of the underlying list. As with the standard queue, the space usage of a deque is $O({n})$, where ${n}$ is the current number of elements in the deque.
 
 The Python `collections` module provides an implementation of the `deque` class, which is implemented with a hybrid approach that uses aspects of circular arrays, but organised into blocks that are themselves organised in a doubly linked list. The `deque` class is formally documented to guarantee $O(1)$-time operations at either end, but $O({n})$-time worst-case operations when using index notation near the middle of the deque.

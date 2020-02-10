@@ -116,7 +116,7 @@ You can download a sample Python source code file of the implementation and exam
 
 The table below shows the running time for the `ArrayStack` methods.
 
-| Operation      | Running Time (\*amortized) |
+| Operation      | Running Time (\*amortised) |
 | -------------- | -------------------------- |
 | `S.push(e)`    | $O(1)$\*                   |
 | `S.pop()`      | $O(1)$\*                   |
@@ -124,4 +124,4 @@ The table below shows the running time for the `ArrayStack` methods.
 | `S.is_empty()` | $O(1)$                     |
 | `len(S)`       | $O(1)$                     |
 
-The $O(1)$ time for `push` and `pop` are amortized bounds; a typical call to either of these methods uses constant time, but there is occasionally an $O({n})$-time worst case, where $n$ is the current number of elements in the stack, when an operation causes the list to resize its internal array. The space usage for a stack is $O({n})$.
+The $O(1)$ time for `push` and `pop` are amortised bounds; a typical call to either of these methods uses constant time, but there is occasionally an $O({n})$-time worst case, where $n$ is the current number of elements in the stack, when an operation causes the list to resize its internal array. The space usage for a stack is $O({n})$.
