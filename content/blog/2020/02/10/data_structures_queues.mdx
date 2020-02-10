@@ -1,0 +1,317 @@
+---
+title: "Data Structures in Python: Queues and Deques"
+date: "2020-02-10T10:35:00+00:00"
+description: "Implementing queues and double-ended queues in Python."
+tags:
+  [
+    "algorithms",
+    "queue",
+    "deque",
+    "blog",
+    "data structures",
+    "interviews",
+    "programming",
+    "python",
+  ]
+---
+
+## Queues: A Primer
+
+A close cousin of the [stack](../../09/data_structures_stacks), a queue is a collection of objects that are inserted and removed according to the "first-in, first-out" (FIFO) principle. Elements can be inserted at any time, but only the element that has been in the queue the longest can be removed next.
+
+Queues are widely used across computer science, transport, and operations research where various entities such as data, objects, persons, or events are held to be processed later. In these contexts, the queue performs the function of a buffer. Queues can also be used in the implementation of breadth-first search.
+
+The queue abstract data type (ADT) supports the following two fundamental methods for a queue `Q`:
+
+- `Q.enqueue(e)`: Add element ${e}$ to the back of queue `Q`.
+- `Q.dequeue()`: Remove and return the first element from queue `Q`; an error occurs if the queue is empty.
+
+The queue ADT also includes the following supporting methods:
+
+- `Q.first()`: Return a reference to the element at the front of queue `Q`, without removing it.
+- `Q.is_empty()`: Return `True` if queue `Q` does not contain any elements.
+- `len(Q)`: Return the number of elements in queue `Q`.
+
+## Implementing an Array-based Queue
+
+As with the stack ADT, we will be using Python's `list` as an adapter class to implement an array-based queue. We will be using the `list` in a circular manner to allow the front of the queue to drift rightward, and also allow the contents of the queue to "wrap around" the end of the underlying array. We do this for two reasons:
+
+- We want avoid using the expensive `pop(0)` operation to dequeue elements, which always causes the worst-case behaviour of $\Omega({n})$ time.
+- If we do not use the list in a circular manner, the size of the underlying array will grow to $O({m})$ over time, where ${m}$ is the **total** number of enqueue operations since the creation of the queue, rather than the current number of elements in the queue.
+
+We assume that underlying array has fixed length ${N}$ that is greater than the number of elements in the queue. New elements are enqueued toward the end of the current queue, progressing from the front to index ${N - 1}$ and continuing at index 0, then 1. We can use the Python **modulo** or `%` operator to implement this behaviour, illustrated by the following example:
+
+- Let's assume we have a list of length 10, and a front index 7.
+- We can advance the front by formally computing `(7 + 1) % 10`, which is 8.
+- Similarly, advancing index 8 results in index 9, as the computation would be `(8 + 1) % 10`.
+- However, when we advance from index 9 to 10, we compute `(9 + 1) % 10`, which evaluates to index 0 as 10 divided by 10 has a remainder of zero.
+
+We will implement the `ArrayQueue` class with a default capacity of 10. The `ArrayQueue` class maintains the following three instance variables:
+
+- `_data`: A reference to a list instance with a fixed capacity.
+- `_size`: An integer representing the current number of elements stored in the queue, as opposed to the length of the `_data` list.
+- `_front`: An integer representing the index within `_data` of the first element of the queue.
+
+We will also re-use the custom `Empty` exception class that we used when implementing our stack data structure.
+
+```python
+class ArrayQueue:
+    """FIFO queue implementation using a Python list as
+    underlying storage. """
+
+    DEFAULT_CAPACITY = 10
+
+    def __init__(self):
+        """Create an empty queue. """
+        self._data = [None] * ArrayQueue.DEFAULT_CAPACITY
+        self._size = 0
+        self._front = 0
+
+    def __len__(self):
+        """Return the number of elements in the queue. """
+        return self._size
+
+    def __str__(self):
+        """String representation of deque. """
+        return str(self._data)
+
+    def is_empty(self):
+        """Return True if the queue is empty. """
+        return self._size == 0
+
+    def first(self):
+        """Return (but do not remove) the element at the front
+        of the queue. """
+        if self.is_empty():
+            raise Empty("Queue is empty")
+
+        return self._data[self._front]
+
+    def dequeue(self):
+        """Remove and return the first element of the queue. """
+        if self.is_empty():
+            raise Empty("Queue is empty")
+
+        first = self._data[self._front]
+        self._data[self._front] = None  # garbage collection
+        self._front = (self._front + 1) % len(self._data)
+        self._size -= 1
+
+        # Shrink underlying array to conserve space
+        if 0 < self._size < len(self._data) // 4:
+            self._resize(len(self._data) // 2)
+
+        return first
+
+    def enqueue(self, e):
+        """Add an element to the back of the queue. """
+        if self._size == len(self._data):
+            self._resize(2 * len(self._data))
+
+        avail = (self._front + self._size) % len(self._data)
+        self._data[avail] = e
+        self._size += 1
+
+    def _resize(self, cap):
+        """Resize to a new list of capacity >= len(self). """
+        old = self._data
+        self._data = [None] * cap
+        walk = self._front
+
+        for i in range(self._size):
+            self._data[i] = old[walk]
+            walk = (1 + walk) % len(old)
+        self._front = 0
+```
+
+Here's a simple demonstration of using the `ArrayQueue` with a few enqueue and dequeue operations.
+
+```python
+>>> Q = ArrayQueue()
+>>> Q.enqueue(5)
+>>>  Q.enqueue(3)
+>>> len(Q)
+2
+>>> Q.dequeue()
+5
+>>> Q.is_empty()
+False
+>>> Q.dequeue()
+3
+>>> Q.is_empty()
+True
+>>> Q.dequeue()
+"sample_queue_deque.Empty: Queue is empty"
+>>> Q.enqueue(7)
+>>> Q.enqueue(9)
+>>> Q.first()
+7
+>>> Q.enqueue(4)
+>>> len(Q)
+3
+>>> Q.dequeue()
+7
+```
+
+You can download a sample Python source code file of the implementation and examples above [here](sample_queue_deque.py).
+
+## Asymptotic Analysis of the Array-based Queue
+
+The table below shows the running time for the `ArrayQueue` methods.
+
+| Operation      | Running Time (\*amortized) |
+| -------------- | -------------------------- |
+| `Q.enqueue(e)` | $O(1)$\*                   |
+| `Q.dequeue()`  | $O(1)$\*                   |
+| `Q.first()`    | $O(1)$                     |
+| `Q.is_empty()` | $O(1)$                     |
+| `len(Q)`       | $O(1)$                     |
+
+With the exception of the `_resize` utility, all of the methods rely on a constant number of statements involving arithmetic operations, comparisons, and assignments. Therefore, each method runs in worst-case $O(1)$ time, except for `enqueue` and `dequeue`, with have **amortized** bounds of $O(1)$ time. The space usage of a queue is $O({n})$, where ${n}$ is the current number of elements in the queue.
+
+## Double-Ended Queues
+
+Double-ended queues, or deques, are queue-like data structures that support insertion and deletion at both the front and back of the queue. The deque ADT is more general than both the stack and the queue ADTs, and is defined to support the following methods for a deque `D`:
+
+- `D.add_first(e)`: Add element ${e}$ to the front of deque `D`.
+- `D.add_last(e)`: Add element ${e}$ to the back of deque `D`.
+- `D.delete_first(e)`: Remove and return the first element from deque `D`.
+- `D.delete_last(e)`: Remove and return the last element from deque `D`.
+
+We can implement the deque ADT in much the same way as the `ArrayQueue` class that we used for the queue ADT.
+
+```python
+class ArrayDeque:
+    """FIFO double-ended queue implementation using a
+    Python list as underlying storage. """
+
+    DEFAULT_CAPACITY = 10
+
+    def __init__(self):
+        """Create an empty queue. """
+        self._data = [None] * ArrayQueue.DEFAULT_CAPACITY
+        self._size = 0
+        self._front = 0
+
+    def __len__(self):
+        """Return the number of elements in the queue. """
+        return self._size
+
+    def __str__(self):
+        """String representation of deque. """
+        return str(self._data)
+
+    def is_empty(self):
+        """Return True if the queue is empty. """
+        return self._size == 0
+
+    def first(self):
+        """Return (but do not remove) the element at the front
+        of the queue. """
+        if self.is_empty():
+            raise Empty("Queue is empty")
+
+        return self._data[self._front]
+
+    def last(self):
+        """Return (but do not remove) the element at the back
+        of the queue. """
+        if self.is_empty():
+            raise Empty("Queue is empty")
+
+        back = (self._front + self._size - 1) % len(self._data)
+
+        return self._data[back]
+
+    def add_first(self, e):
+        """Add an element to the start of the queue. """
+        if self._size == len(self._data):
+            self._resize(2 * len(self._data))
+
+        self._front = (self._front - 1) % len(self._data)
+        self._data[self._front] = e
+        self._size += 1
+
+    def add_last(self, e):
+        """Add an element to the back of the queue. """
+        if self._size == len(self._data):
+            self._resize(2 * len(self._data))
+
+        avail = (self._front + self._size) % len(self._data)
+        self._data[avail] = e
+        self._size += 1
+
+    def delete_first(self):
+        """Remove and return the first element of the queue. """
+        if self.is_empty():
+            raise Empty("Queue is empty")
+
+        first = self._data[self._front]
+        self._data[self._front] = None  # garbage collection
+        self._front = (self._front + 1) % len(self._data)
+        self._size -= 1
+
+        # Shrink underlying array to conserve space
+        if 0 < self._size < len(self._data) // 4:
+            self._resize(len(self._data) // 2)
+
+        return first
+
+    def delete_last(self):
+        """Remove and return the last element of the queue. """
+        if self.is_empty():
+            raise Empty("Queue is empty")
+
+        back = (self._front + self._size - 1) % len(self._data)
+        last = self._data[back]
+        self._data[back] = None  # garbage collection
+        self._size -= 1
+
+        # Shrink underlying array to conserve space
+        if 0 < self._size < len(self._data) // 4:
+            self._resize(len(self._data) // 2)
+
+        return last
+
+    def _resize(self, cap):
+        """Resize to a new list of capacity >= len(self). """
+        old = self._data
+        self._data = [None] * cap
+        walk = self._front
+
+        for i in range(self._size):
+            self._data[i] = old[walk]
+            walk = (1 + walk) % len(old)
+        self._front = 0
+```
+
+As with the `ArrayQueue`, below is a set of sample operations for the `ArrayDeque` class.
+
+```python
+>>> D = ArrayDeque()
+>>> D.add_last(5)
+>>> D.add_first(3)
+>>> D.add_first(7)
+>>> D.first()
+7
+>>> D.delete_last()
+5
+>>> len(D)
+2
+>>> D.delete_last()
+3
+>>> D.delete_last()
+7
+>>> D.add_first(6)
+>>> D.last()
+6
+>>> D.add_first(8)
+>>> D.is_empty()
+False
+>>> D.last()
+6
+```
+
+The efficiency of an `ArrayDeque` is similar to that of an `ArrayQueue`, with all operations having $O(1)$ running time, but with that bound being amortized for operations that may change the size of the underlying list.
+
+The Python `collections` module provides an implementation of the `deque` class, which is implemented with a hybrid approach that uses aspects of circular arrays, but organised into blocks that are themselves organised in a doubly linked list. The `deque` class is formally documented to guarantee $O(1)$-time operations at either end, but $O({n})$-time worst-case operations when using index notation near the middle of the deque.

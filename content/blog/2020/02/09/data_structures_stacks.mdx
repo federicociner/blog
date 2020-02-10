@@ -5,7 +5,7 @@ description: "Using Python lists to implement an array-based stack data structur
 tags:
   [
     "algorithms",
-    "stacks",
+    "stack",
     "blog",
     "data structures",
     "interviews",
@@ -110,23 +110,18 @@ False
 True
 ```
 
-You can download sample Python source code of the implementation and examples above [here](sample_stack.py).
+You can download a sample Python source code file of the implementation and examples above [here](sample_stack.py).
 
 ## Asymptotic Analysis of the Array-based Stack
 
 The table below shows the running time for the `ArrayStack` methods.
 
-| Operation      | Running Time |
-| -------------- | ------------ |
-| `S.push(e)`    | $O(1)$\*     |
-| `S.pop()`      | $O(1)$\*     |
-| `S.top()`      | $O(1)$       |
-| `S.is_empty()` | $O(1)$       |
-| `len(S)`       | $O(1)$       |
+| Operation      | Running Time (\*amortized) |
+| -------------- | -------------------------- |
+| `S.push(e)`    | $O(1)$\*                   |
+| `S.pop()`      | $O(1)$\*                   |
+| `S.top()`      | $O(1)$                     |
+| `S.is_empty()` | $O(1)$                     |
+| `len(S)`       | $O(1)$                     |
 
-<div style="text-align: right">
-  <i>* Amortized</i>
-</div>
-<br></br>
-
-The $O(1)$ time for `push` and `pop` are amortized bounds; a typical call to either of these methods uses constant time, but there is occassionally an $O({n})$-time worst case, where $n$ is the current number of elements in the stack, when an operation causes the list to resize its internal array. The space usage for a stack is $O({n})$.
+The $O(1)$ time for `push` and `pop` are amortized bounds; a typical call to either of these methods uses constant time, but there is occasionally an $O({n})$-time worst case, where $n$ is the current number of elements in the stack, when an operation causes the list to resize its internal array. The space usage for a stack is $O({n})$.
