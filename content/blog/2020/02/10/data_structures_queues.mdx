@@ -54,8 +54,7 @@ We will also re-use the custom `Empty` exception class that we used when impleme
 
 ```python
 class ArrayQueue:
-    """FIFO queue implementation using a Python list as
-    underlying storage. """
+    """FIFO queue implementation using a Python list as underlying storage. """
 
     DEFAULT_CAPACITY = 10
 
@@ -78,8 +77,9 @@ class ArrayQueue:
         return self._size == 0
 
     def first(self):
-        """Return (but do not remove) the element at the front
-        of the queue. """
+        """Return (but do not remove) the element at the front of the queue.
+
+        """
         if self.is_empty():
             raise Empty("Queue is empty")
 
@@ -90,7 +90,7 @@ class ArrayQueue:
         if self.is_empty():
             raise Empty("Queue is empty")
 
-        first = self._data[self._front]
+        element = self._data[self._front]
         self._data[self._front] = None  # garbage collection
         self._front = (self._front + 1) % len(self._data)
         self._size -= 1
@@ -99,7 +99,7 @@ class ArrayQueue:
         if 0 < self._size < len(self._data) // 4:
             self._resize(len(self._data) // 2)
 
-        return first
+        return element
 
     def enqueue(self, e):
         """Add an element to the back of the queue. """
@@ -180,8 +180,8 @@ We can implement the deque ADT in much the same way as the `ArrayQueue` class th
 
 ```python
 class ArrayDeque:
-    """FIFO double-ended queue implementation using a
-    Python list as underlying storage. """
+    """FIFO double-ended queue implementation using a Python list as
+    underlying storage. """
 
     DEFAULT_CAPACITY = 10
 
@@ -204,16 +204,16 @@ class ArrayDeque:
         return self._size == 0
 
     def first(self):
-        """Return (but do not remove) the element at the front
-        of the queue. """
+        """Return (but do not remove) the element at the front of the queue.
+
+        """
         if self.is_empty():
             raise Empty("Queue is empty")
 
         return self._data[self._front]
 
     def last(self):
-        """Return (but do not remove) the element at the back
-        of the queue. """
+        """Return (but do not remove) the element at the back of the queue. """
         if self.is_empty():
             raise Empty("Queue is empty")
 

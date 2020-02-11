@@ -263,3 +263,7 @@ class LinkedQueue:
         self._tail = newest
         self._size += 1
 ```
+
+One subtle difference between the `LinkedStack` and `LinkedQueue` classes is that the queue must maintain a `_tail` reference. Typically, an operation at the head has no effect on the tail, but when `dequeue` is invoked on a queue with one element, we are simultaneously removing the tail of the list. Therefore, we have to set `self._tail` to None for consistency. This complication also occurs for the `enqueue` method; the newest node always becomes the new tail. However, if the new node is the only node in the list, it also becomes the new head.
+
+From a performance point of view, the `LinkedQueue` is similar to the `LinkedStack` in that all operations run in worst-case $O(1)$ time, and the space usage is $O({n})$ in the number of elements.

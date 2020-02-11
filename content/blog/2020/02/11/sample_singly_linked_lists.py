@@ -127,3 +127,11 @@ if __name__ == "__main__":
     print(S.is_empty())
 
     # LinkedQueue examples
+    S = LinkedQueue()
+    S.enqueue(5)
+    S.enqueue(3)
+    print(len(S))
+    print(S.dequeue())
+    print(S.is_empty())
+    print(S.dequeue())
+    print(S.is_empty())
