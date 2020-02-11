@@ -3,7 +3,7 @@ module.exports = {
     title: `Federico Ciner`,
     author: `Federico Ciner`,
     description: `My personal portfolio website, which personal information and a blog. I currently host this site on Netlify.`,
-    siteUrl: `https://federicociner.com/`
+    url: `https://federicociner.com/`
   },
   plugins: [
     `gatsby-plugin-netlify-cms`,

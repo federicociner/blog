@@ -21,7 +21,10 @@ class ResumePage extends Component {
         <SEO title="Resume" />
         <Navigation />
         <p>Click below to download a copy of my resume.</p>
-        <a href="https://drive.google.com/file/d/1fMqBTwdmJ_FbOlZ23On-_51EfRKcX1yG/view?usp=sharing">
+        <a
+          href="https://drive.google.com/file/d/1fMqBTwdmJ_FbOlZ23On-_51EfRKcX1yG/view?usp=sharing"
+          style={{ textDecoration: "none" }}
+        >
           <Button marginBottom="15px">Resume</Button>
         </a>
         <p>Last updated on February 5, 2020.</p>

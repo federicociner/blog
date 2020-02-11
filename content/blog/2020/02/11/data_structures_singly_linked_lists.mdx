@@ -1,0 +1,265 @@
+---
+title: "Data Structures in Python: Singly Linked Lists"
+date: "2020-02-11T14:58:00+00:00"
+description: "Implementing stacks and queues using a singly linked list in Python."
+tags:
+  [
+    "algorithms",
+    "linked list",
+    "data structures",
+    "interviews",
+    "programming",
+    "python",
+  ]
+---
+
+## Introduction
+
+In my last couple of posts, I covered arrays and array-based structures such as stacks and queues. Python provides the `list` class, which is highly optimised and provides a great choice for storage. It does, however, have some disadvantages:
+
+- Dynamic arrays will usually have a greater capacity than the actual number of elements that they store, which is an inefficient use of space.
+- Amortised bounds for operations may be unacceptable in real-time systems.
+- Insertions and deletions at interior positions of an array are expensive.
+
+In this and the next few posts, I will go through the **linked list** data structure, which provides an alternative to the array-based sequence. Both linked lists and arrays keep a set of elements in a certain order, but using a different style. Arrays provide a centralised representation, with one contiguous chunk of memory capable of accommodating references to many elements. Linked lists rely on a more distributed representation in which a lightweight object, known as a node, is allocated for each element. Each node maintains a reference to its element and one or more references to neighbouring nodes in order to collectively represent the linear order of the sequence.
+
+## Singly Linked Lists
+
+A singly linked is a collection of nodes that collectively form a linear sequence. Each node stores a reference to an object that is an element of the sequence, as well as a reference to the next node of the list. The first and last node of a linked list are known as the **head** and **tail** of the list, respectively. The tail node can be identified as the node having `None` as its next reference.
+
+We can traverse the linked list by starting at the head and moving from one node to another by following each node's next reference. Because the next reference of a node can be viewed as a link or pointer to another node, the process of traversing a list is also known as **link hopping** or **pointer hopping**.
+
+Each node is represented as a unique object, which stores a reference to its element and a reference to the next node. Another object represents the linked list as a whole, which must keep a reference to the head of the list. It does not explicitly need a reference to the tail of the list, as it could otherwise be located by starting at the head and traversing the rest of the list. It is also common practice for the linked list instance to keep a count of the total number of nodes that comprise the list.
+
+### Inserting Elements at the Head of a Singly Linked List
+
+Linked lists do not have a predetermined fixed size, and they use space proportionally to their current number of elements. We can easily insert an element at the head of a list via the following steps:
+
+1. Create a new node.
+1. Set its `element` to the new element.
+1. Set its `next` link to refer to the current `head`.
+1. Set the list's `head` to point to the new node.
+
+The following pseudo-code for the `add_first` method describes the steps above:
+
+```text
+Algorithm add_first(L, e):
+    newest = Node(e)
+    newest.next = L.head
+    L.head = newest
+    L.size = L.size + 1
+```
+
+### Inserting Elements at the Tail of a Singly Linked List
+
+Inserting elements at the tail of the list is also straightforward, provided we keep a reference to the tail node.
+
+1. Create a node.
+2. Assign its `next` reference to `None`.
+3. Set the `next` reference of the tail to point to this new node.
+4. Update the `tail` reference itself to this new node.
+
+As before, here is the pseudo-code for the `add_last` method:
+
+```text
+Algorithm add_last(L, e):
+    newest = Node(e)
+    newest.next = None
+    L.tail.next = newest
+    L.tail = newest
+    L.size = L.size + 1
+```
+
+### Removing an Element from a Singly Linked List
+
+Removing an element from the **head** of a singly linked list is essentially the reverse operation of inserting a new element at the head. The pseudo-code for the `remove_first` method illustrates these steps:
+
+```text
+Algorithm remove_first(L, e):
+    if L.head is None then
+        Indicate an error: the list is empty
+    L.head = L.head.next
+    L.size = L.size - 1
+```
+
+However, removing an element from the **tail** of a singly linked list is non-trivial. We must be able to access the node _before_ the last node in order to remove the last node, but we cannot reach the node before the tail by following next links from the tail. The only way to access this node is to start from the head of the list and search all the way through the list, which could take a long time. In order to support such an operation efficiently, we will need to use a **doubly linked list**.
+
+## Implementing a Stack with a Singly Linked List
+
+We can implement the stack ADT using a singly linked list, where the top of the stack will be at the head of the list. Since we can efficiently insert _and_ delete elements from the head, this design choice makes the most sense for the location of the top of the stack.
+
+We can use the following private `_Node` class, which is nested inside the `LinkStack` class which represents the stack ADT.
+
+```python
+class _Node:
+    """Lightweight private class for storing a singly linked node. """
+    __slots__ = "_element", "_next"
+
+    def __init__(self, element, next):
+        self._element = element
+        self._next = next
+```
+
+A node has only two instance variables: `_element` and `_next`. We use the Python `__slots__` attribute to explicitly state which instance attributes we expect the node to have, leading to faster attribute access and space savings in memory; refer to [this](https://stackoverflow.com/a/28059785) post for a great deep-dive into how to use `__slots__`. Our `LinkedStack` data structure has the following characteristics:
+
+- Each stack maintains two variables:
+  - The `_head` member is a reference to the node at the head of the list.
+  - The `_size` instance variable keeps track of the current number of elements.
+- The implementation of `push` mirrors the pseudo-code for [insertion at the head](#inserting-elements-at-the-head-of-a-singly-linked-list) of a singly linked list. When we push a new element ${e}$ onto the stack, we accomplish the necessary changes to the linked structure by invoking the constructor of the `_Node` class as follows:
+
+  ```python
+  self._head = self._Node(e, self._head)
+  ```
+
+The code block below contains a complete implementation of the `LinkedStack` class.
+
+```python
+class LinkedStack:
+    """LIFO stack implementation using a singly linked list for storage. """
+
+    class _Node:
+        """Lightweight private class for storing a singly linked node. """
+
+        __slots__ = "_element", "_next"
+
+        def __init__(self, element, next):
+            self._element = element
+            self._next = next
+
+    def __init__(self):
+        """Create an empty stack. """
+        self._head = None
+        self._size = 0
+
+    def __len__(self):
+        """Return the number of elements in the stack. """
+        return self._size
+
+    def is_empty(self):
+        """Return True if the stack is empty. """
+        return self._size == 0
+
+    def push(self, e):
+        """Add element e to the top of the stack. """
+        self._head = self._Node(e, self._head)
+        self._size += 1
+
+    def top(self):
+        """Return (but do not remove) the element at the top of the stack. """
+        if self.is_empty():
+            raise Empty("Stack is empty.")
+
+        return self._head._element
+
+    def pop(self):
+        """Remove and return the element from the top of the stack. """
+        if self.is_empty():
+            raise Empty("Stack is empty.")
+
+        element = self._head._element
+        self._head = self._head._next
+        self._size -= 1
+
+        return element
+```
+
+As with the `ArrayStack`, we can see that the `pop` and `push` operations behave identically in the following sample code:
+
+```python
+>>> S = LinkedStack()
+>>> S.push(5)
+>>> S.push(3)
+>>> print(len(S))
+2
+>>> print(S.pop())
+3
+>>> print(S.is_empty())
+False
+>>> print(S.pop())
+5
+>>> print(S.is_empty())
+True
+```
+
+You can download a sample Python source code file of every implementation and example in this post [here](sample_singly_linked_lists.py).
+
+### Asymptotic Analysis of the LinkedStack
+
+The table below shows the running time for the `LinkedStack` methods for a stack `S`.
+
+| Operation      | Running Time |
+| -------------- | ------------ |
+| `S.push(e)`    | $O(1)$       |
+| `S.pop()`      | $O(1)$       |
+| `S.top()`      | $O(1)$       |
+| `len(Q)`       | $O(1)$       |
+| `S.is_empty()` | $O(1)$       |
+
+All of the methods completed in _worst-case_ constant time, which is in contrast to the amortised bounds for the `ArrayStack` that we discussed in an earlier [post](../../09/data_structures_stacks). The space usage of the `LinkedStack` is $O({n})$, where ${n}$ is the current number of elements in the stack.
+
+## Implementing a Queue with a Singly Linked List
+
+We can also use a singly linked list to implement the a queue ADT while support worst-case $O(1)$-time for all operations. In this case, we will need to maintain both a `_head` reference and a `_tail` reference as instance variables for each queue, because we must be able to enqueue elements at the back and dequeue them from the front. The implementation of the `LinkedQueue` class is given in the code snippet below.
+
+```python
+class LinkedQueue:
+    """FIFO queue implementation using a singly linked list for storage. """
+
+    class _Node:
+        """Lightweight private class for storing a singly linked node. """
+
+        __slots__ = "_element", "_next"
+
+        def __init__(self, element, next):
+            self._element = element
+            self._next = next
+
+    def __init__(self):
+        """Create an empty queue. """
+        self._head = None
+        self._tail = None
+        self._size = 0
+
+    def __len__(self):
+        """Return the number of elements in the queue. """
+        return self._size
+
+    def is_empty(self):
+        """Return True if the queue is empty. """
+        return self._size == 0
+
+    def first(self):
+        """Return (but do not remove) the element at the front of the queue.
+
+        """
+        if self.is_empty():
+            raise Empty("Queue is empty.")
+
+        return self._head._element
+
+    def dequeue(self):
+        """Remove and return the first element of the queue (i.e. FIFO). """
+        if self.is_empty():
+            raise Empty("Queue is empty.")
+
+        element = self._head._element
+        self._head = self._head._next
+        self._size -= 1
+
+        # If queue is empty, the removed head had been the tail
+        if self.is_empty():
+            self._tail = None
+
+        return element
+
+    def enqueue(self, e):
+        """Add an element to the back of the queue. """
+        newest = self._Node(e, None)
+
+        if self.is_empty():
+            self._head = newest
+        else:
+            self._tail._next = newest
+        self._tail = newest
+        self._size += 1
+```

@@ -2,8 +2,7 @@ import ctypes
 
 
 class DynamicArray:
-    """A dynamic array class, akin to a simplified Python
-    list. """
+    """A dynamic array class, akin to a simplified Python list. """
 
     def __init__(self):
         """Create an empty array."""
@@ -12,8 +11,7 @@ class DynamicArray:
         self._A = self._make_array(self._capacity)
 
     def __len__(self):
-        """Return the number of elements stored in the
-        array. """
+        """Return the number of elements stored in the array. """
         return self._n
 
     def __getitem__(self, k):
@@ -24,9 +22,8 @@ class DynamicArray:
         return self._A[k]
 
     def append(self, obj):
-        """Add an element to the end of the array. If there
-        isn't enough capacity, double the size of the
-        array. """
+        """Add an element to the end of the array. If there isn't enough
+        capacity, double the size of the array. """
         if self._n == self._capacity:
             self._resize(2 * self._capacity)
         self._A[self._n] = obj

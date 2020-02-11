@@ -28,7 +28,8 @@ function Bio() {
             />
             <p>
               I am a software developer working in the financial services sector
-              in Sydney, Australia.
+              in Sydney, Australia. I like reading, cooking, playing guitar,
+              travelling, running, hiking, and learning new things.
             </p>
           </Container>
         );

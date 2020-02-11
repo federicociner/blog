@@ -1,13 +1,11 @@
 class Empty(Exception):
-    """Error attempting to access an element from an
-    empty container. """
+    """Error attempting to access an element from an empty container. """
 
     pass
 
 
 class ArrayQueue:
-    """FIFO queue implementation using a Python list as
-    underlying storage. """
+    """FIFO queue implementation using a Python list as underlying storage. """
 
     DEFAULT_CAPACITY = 10
 
@@ -30,8 +28,9 @@ class ArrayQueue:
         return self._size == 0
 
     def first(self):
-        """Return (but do not remove) the element at the front
-        of the queue. """
+        """Return (but do not remove) the element at the front of the queue.
+
+        """
         if self.is_empty():
             raise Empty("Queue is empty")
 
@@ -75,8 +74,8 @@ class ArrayQueue:
 
 
 class ArrayDeque:
-    """FIFO double-ended queue implementation using a
-    Python list as underlying storage. """
+    """FIFO double-ended queue implementation using a Python list as
+    underlying storage. """
 
     DEFAULT_CAPACITY = 10
 
@@ -99,16 +98,16 @@ class ArrayDeque:
         return self._size == 0
 
     def first(self):
-        """Return (but do not remove) the element at the front
-        of the queue. """
+        """Return (but do not remove) the element at the front of the queue.
+
+        """
         if self.is_empty():
             raise Empty("Queue is empty")
 
         return self._data[self._front]
 
     def last(self):
-        """Return (but do not remove) the element at the back
-        of the queue. """
+        """Return (but do not remove) the element at the back of the queue. """
         if self.is_empty():
             raise Empty("Queue is empty")
 

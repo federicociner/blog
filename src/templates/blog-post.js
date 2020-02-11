@@ -32,13 +32,39 @@ class BlogPost extends Component {
         >
           {post.frontmatter.date}
         </p>
+        <p>
+          {post.frontmatter.tags.map((tag, index) => {
+            return (
+              <span
+                style={{
+                  background: "slategray",
+                  borderRadius: "6px",
+                  display: "inline-block",
+                  marginTop: "6px",
+                  marginRight: "12px",
+                  padding: "1px 3px"
+                }}
+                key={index}
+              >
+                <Link
+                  style={{
+                    color: "white",
+                    textDecoration: "none"
+                  }}
+                  to={`/tags/${tag}`}
+                >
+                  {tag}
+                </Link>
+              </span>
+            );
+          })}
+        </p>
         <MDXRenderer>{post.body}</MDXRenderer>
         <hr
           style={{
             marginBottom: rhythm(1)
           }}
         />
-
         <ul
           style={{
             display: `flex`,
@@ -86,6 +112,7 @@ export const pageQuery = graphql`
         title
         date(formatString: "MMMM DD, YYYY")
         description
+        tags
       }
     }
   }

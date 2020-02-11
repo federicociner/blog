@@ -1,13 +1,11 @@
 class Empty(Exception):
-    """Error attempting to access an element from an
-    empty container. """
+    """Error attempting to access an element from an empty container. """
 
     pass
 
 
 class ArrayStack:
-    """LIFO stack implementation using a Python list as
-    underlying storage. """
+    """LIFO stack implementation using a Python list as underlying storage. """
 
     def __init__(self):
         """Create an empty stack. """
@@ -26,16 +24,15 @@ class ArrayStack:
         self._data.append(e)
 
     def top(self):
-        """Return (but do not remove) the element at the
-        top of the stack. """
+        """Return (but do not remove) the element at the top of the stack. """
         if self.is_empty():
             raise Empty("Stack is empty")
 
         return self._data[-1]
 
     def pop(self):
-        """Remove and return the element from the top of
-        the stack (i.e. LIFO). """
+        """Remove and return the element from the top of the stack
+        (i.e. LIFO). """
         if self.is_empty():
             raise Empty("Stack is empty")
         return self._data.pop()
