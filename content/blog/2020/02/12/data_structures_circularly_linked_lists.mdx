@@ -1,0 +1,149 @@
+---
+title: "Data Structures in Python: Circularly Linked Lists"
+date: "2020-02-12T10:25:00+00:00"
+description: "Implementing a queue using a circularly linked list in Python."
+tags:
+  [
+    "algorithms",
+    "linked list",
+    "data structures",
+    "interviews",
+    "programming",
+    "python",
+  ]
+---
+
+## Circularly Linked Lists: A Primer
+
+Having introduced the concept of a circular array in my [post](../../10/data_structures_queues) describing how to implement queues and deques, we can also have a notion of _circularly linked lists_. In this case, we can have the tail of the list use its next reference to point back to the head of the list.
+
+A circularly linked list provides a more general model than a standard linked list for datasets that are cyclic, that is, which do not have any particular notion of a beginning and end. Even though a circularly linked list has no beginning or end, we have to maintain a reference to a particular node in order to make use of the list. We can use the identifier **current** to describe such a node; by setting `current = current.next` we can effectively advance through nodes of the list.
+
+## Round-Robin Schedulers
+
+We can use circularly linked lists to implement a **round-robin** scheduler, which iterates through a collection of elements in a circular fashion and "services" each element by performing a given action on it. These types of schedulers are typically used to fairly allocate resources that must be shared by a collection of clients, for example allocating slices of CPU time to various applications running concurrently on a computer.
+
+We could implement a round-robin scheduler using the general queue ADT by repeatedly performing the following steps on queue `Q`:
+
+1. `e = Q.dequeue(e)`
+2. Service element `e`
+3. `Q.enqueue(e)`
+
+If we are using the `LinkedQueue` class from my previous post, there is unnecessary effort in the combination of a `dequeue` operation followed soon after by an `enqueue` of the same element. If we use a circularly linked list, we can accomplish the transfer of an item from the "head" of the list to the "tail" of the list by advancing a reference that marks the boundary of the list. With this operation, a round-robin scheduler can more efficiently be implemented by repeatedly performing the following steps:
+
+1. Service element `Q.front()`
+2. `Q.rotate()`
+
+With this in mind, we can implement a `CircularQueue` class that supports the entire queue ADT, but adds an additional method `rotate`, which moves the first element of the queue to the back. This class has the following characteristics:
+
+- The only two instance variables in this class are `_tail`, which is a reference to the tail node, and `_size`, which is the current number of elements in the queue.
+- When an operation involves the front of the queue, we recognise `self._tail._next` as the head of the queue.
+- When `enqueue` is called, a new node is placed just after the tail but before the current head, and then the new node becomes the tail.
+
+```python
+class CircularQueue:
+    """Queue implementation using circularly linked list for storage. """
+
+    class _Node:
+        """Lightweight private class for storing a singly linked node. """
+
+        __slots__ = "_element", "_next"
+
+        def __init__(self, element, next):
+            self._element = element
+            self._next = next
+
+    def __init__(self):
+        """Create an empty queue. """
+        self._tail = None
+        self._size = 0
+
+    def __len__(self):
+        """Return the number of elements in the queue. """
+        return self._size
+
+    def __str__(self):
+        """Print contents of the circular queue, staring at the head. """
+        curr = self._tail._next
+        res = ""
+
+        for i in range(self._size):
+            if i != self._size - 1:
+                res += f"Node{{element: {curr._element}}} -> "
+            else:
+                res += f"Node{{element: {curr._element}}}"
+
+            curr = curr._next
+
+        return res
+
+    def is_empty(self):
+        """Return True if the queue is empty. """
+        return self._size == 0
+
+    def first(self):
+        """Return (but do not remove) the element at the front of the queue.
+
+        """
+        if self.is_empty():
+            raise Empty("Queue is empty.")
+
+        head = self._tail._next
+
+        return head._element
+
+    def dequeue(self):
+        """Remove and return the first element of the queue (i.e. FIFO). """
+        if self.is_empty():
+            raise Empty("Queue is empty.")
+
+        oldhead = self._tail._next
+        if self._size == 1:
+            self._tail = None
+        else:
+            self._tail._next = oldhead._next
+        self._size -= 1
+
+        return oldhead._element
+
+    def enqueue(self, e):
+        """Add an element to the back of the queue. """
+        newest = self._Node(e, None)
+
+        if self.is_empty():
+            newest._next = newest
+        else:
+            newest._next = self._tail._next
+            self._tail._next = newest
+
+        self._tail = newest
+        self._size += 1
+
+    def rotate(self):
+        """Rotate front element to the back of the queue. """
+        if self._size > 0:
+            self._tail = self._tail._next
+```
+
+We can see some example `enqueue` and `dequeue` operations below. For convenience, I've added a `__str__` method to print out the current queue in a human-readable format. You can also download a sample Python source code file of this code [here](sample_circularly_linked_lists.py).
+
+```python
+>>> S = CircularQueue()
+>>> S.enqueue(1)
+>>> S.enqueue(2)
+>>> S.enqueue(3)
+>>> S.enqueue(4)
+>>> print(S)
+Node{element: 1} -> Node{element: 2} -> Node{element: 3} -> Node{element: 4}
+>>> S.dequeue()
+>>> print(S.first())
+2
+>>> S.enqueue(7)
+>>> print(S)
+Node{element: 2} -> Node{element: 3} -> Node{element: 4} -> Node{element: 7}
+>>> S.rotate()
+>>> print(S)
+Node{element: 3} -> Node{element: 4} -> Node{element: 7} -> Node{element: 2}
+```
+
+As before, the `CircularQueue` is similar to the `LinkedQueue` in that all operations run in worst-case $O(1)$ time, and the space usage is $O({n})$ in the number of elements.

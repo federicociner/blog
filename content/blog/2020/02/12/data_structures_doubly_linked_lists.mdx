@@ -1,0 +1,194 @@
+---
+title: "Data Structures in Python: Doubly Linked Lists"
+date: "2020-02-12T13:14:00+00:00"
+description: "Implementing a deque using a doubly linked list in Python."
+tags:
+  [
+    "algorithms",
+    "linked list",
+    "data structures",
+    "interviews",
+    "programming",
+    "python",
+  ]
+---
+
+## Doubly Linked Lists: A Primer
+
+In this post, we will cover one more style of linked list: the doubly linked list. Each node in a doubly linked list keeps an explicit reference to the node before it _and_ a reference to the node after it. These lists allow a greater variety of $O(1)$-time update operations, including insertions and deletions at arbitrary positions within the list.
+
+### Header and Trailer Sentinels
+
+In order to avoid special cases when operating near the boundaries of a doubly linked list, we will be adding special nodes at both ends of the list: a _header_ node at the beginning of the list, and a _trailer_ node at the end of the list. These "dummy" nodes are known as sentinels and do not store elements of the primary sequence. We can use sentinel nodes by first creating an empty list so that the `next` field of the header points to the trailer, and the `prev` field of the trailer points to the header.
+
+### Advantages of Using Sentinels
+
+Here are a few advantages of using sentinels in a doubly linked list implementation:
+
+- The header and trailer nodes never change; only the nodes between them change.
+- We can treat all insertions in a unified manner, because a new node will always be placed between a pair of existing nodes.
+- Every element that is to be deleted is guaranteed to be stored in a node that has neighbours on either side.
+
+### Inserting and Deleting with a Doubly Linked List
+
+Every insertion into our doubly linked list implementation will take place between a pair of existing nodes e.g. when a new element is inserted at the front of the sequence, we will add the new node _between_ the header and the node that is currently after the header.
+
+The deletion of a node proceeds in the opposite fashion of an insertion. The two neighbours of the node to be deleted are linked directly to each other, thereby bypassing the original node. As a result, that node will no longer be considered part of the list and it can be reclaimed by the system.
+
+## Implementing a Basic Doubly Linked List
+
+We will implement a low-level `_DoublyLinkedBase` class as a private interface which we will use to build a `LinkedDeque` class later on. This low-level base class uses the private `_Node` class that we used for a singly linked list, with the addition of the `_prev` attribute.
+
+```python
+class _DoublyLinkedBase:
+    """A base class providing a doubly linked list representation. """
+
+    class _Node:
+        """Lightwieght, private class for storing a doubly linked node. """
+
+        __slots__ = "_element", "_prev", "_next"
+
+        def __init__(self, element, prev, next):
+            self._element = element
+            self._prev = prev
+            self._next = next
+
+    def __init__(self):
+        self._header = self._Node(None, None, None)
+        self._trailer = self._Node(None, None, None)
+        self._header._next = self._trailer
+        self._trailer._prev = self._header
+        self._size = 0
+
+    def __len__(self):
+        """Return the number of elements in the list. """
+        return self._size
+
+    def __str__(self):
+        """Print contents of the doubly linked list, staring at the head. """
+        curr = self._header._next
+        res = ""
+
+        for i in range(self._size):
+            if i != self._size - 1:
+                res += f"Node{{element: {curr._element}}} -> "
+            else:
+                res += f"Node{{element: {curr._element}}}"
+
+            curr = curr._next
+
+        return res
+
+    def is_empty(self):
+        """Return True if list is empty. """
+        return self._size == 0
+
+    def _insert_between(self, e, predecessor, successor):
+        """Add element e between two existing nodes and return new node. """
+        newest = self._Node(e, predecessor, successor)
+        predecessor._next = newest
+        successor._prev = newest
+        self._size += 1
+
+        return newest
+
+    def _delete_node(self, node):
+        """Delete non-sentinel node from the list and return its element. """
+        predecessor = node._prev
+        successor = node._next
+        predecessor._next = successor
+        successor._prev = predecessor
+        self._size -= 1
+        element = node._element
+        node._prev = node._next = node._element = None
+
+        return element
+```
+
+The two private methods `_insert_between` and `_delete_node` provide generic support for insertions and deletions, respectively, but require one or more node references as parameters. These methods are based on the algorithms describe in the previous [section](#inserting-and-deleting-with-a-doubly-linked-list) regarding insertions and deletions in doubly linked lists.
+
+## Implementing a Deque with a Doubly Linked List
+
+We can implement the double-ended queue, or deque, ADT using a doubly linked list. The advantage of using a doubly linked list over an array-based implementation is due to increase performance of operations. With an array-based implementation, we achieve all operations in _amortised_ $O(1)$ time, due to the occasional need to resize the array. Using a doubly linked list, we can achieve all deque operations in _worst-case_ $O(1)$ time.
+
+We will not provide explicit `__init__`, `__len__` or `is_empty` methods for this class, since these can be inherited directly from the `_DoublyLinkedBase` class we implemented previously. We will also use sentinels for this implementation, such that the first element of the deque is stored in the node just _after_ the header, and the last element is stored in the node just _before_ the trailer.
+
+We can also use the inherited `_insert_between` method to insert at either end of the deque, and the inherited `_delete_node` method to provide a similar set of functionality for deletions at both ends of the deque.
+
+```python
+class LinkedDeque(_DoublyLinkedBase):
+    """Double-ended queue implementation based on a doubly linked list. """
+
+    def first(self):
+        """Return (but do not remove) the element at the front of the deque.
+
+        """
+        if self.is_empty():
+            raise Empty("Deque is empty.")
+
+        return self._header._next._element
+
+    def last(self):
+        """Return (but do not remove) the element at the back of the deque. """
+        if self.is_empty():
+            raise Empty("Deque is empty.")
+
+        return self._trailer._prev._element
+
+    def insert_first(self, e):
+        """Add an element to the front of the deque. """
+        self._insert_between(e, self._header, self._header._next)
+
+    def insert_last(self, e):
+        """Add an element to the back of the deque. """
+        self._insert_between(e, self._trailer._prev, self._trailer)
+
+    def delete_first(self):
+        """Remove and return the element from the front of the deque. """
+        if self.is_empty():
+            raise Empty("Deque is empty.")
+
+        self._delete_node(self._header._next)
+
+    def delete_last(self):
+        """Remove and return the element from the back of the deque. """
+        if self.is_empty():
+            raise Empty("Deque is empty.")
+
+        self._delete_node(self._trailer._prev)
+```
+
+Below are some sample operations using our newly created `LinkedDeque` class. You can download these examples [here](sample_doubly_linked_lists.py).
+
+```python
+>>> D = LinkedDeque()
+>>> D.insert_first(1)
+>>> D.insert_first(2)
+>>> D.insert_last(3)
+>>> print(D)
+Node{element: 2} -> Node{element: 1} -> Node{element: 3}
+>>> D.delete_first()
+>>> print(D.first())
+1
+>>> D.insert_first(4)
+>>> print(D)
+Node{element: 4} -> Node{element: 1} -> Node{element: 3}
+>>> D.delete_last()
+>>> print(D)
+Node{element: 4} -> Node{element: 1}
+```
+
+## Link-based vs. Array-based Sequences
+
+To wrap up our discussion of arrays and linked lists, we will compare and contrast the advantages and disadvantages of array-based and link-based data structures. Each approach has its own set of benefits and trade-offs, and it is important to understand these well in order to determine which approach is best when implementing a more sophisticated data structure.
+
+### Advantages of Array-based Sequences
+
+- Arrays provide $O(1)$-time access to an element based on an integer index. In contrast, locating the ${k^{th}}$ element in a linked list requires $O({k})$ time to traverse the list from the beginning, or possibly $O({n - k})$-time, if traversing backward from the end of a doubly linked list.
+- Operations with equivalent asymptotic bounds typically run a constant factor more efficiently with an array-based structure versus a linked structure i.e. the actual number of CPU operations for similar operations will be more in the linked structure.
+- Array-based representations typically use proportionally less memory than linked structures. An array-based container of ${n}$ elements might require in the worst-case ${2n}$ object references. With linked lists, memory must be devoted not only to store a reference to each contained object, but also explicitly references that link the nodes. Even a singly linked list of length ${n}$ already requires ${2n}$ references, and a doubly linked list will need ${3n}$ references.
+
+### Advantages of Link-base Sequences
+
+- Link-based structures provide worst-case time bounds for their operations, which is in contrast to the amortised bounds associated with the expansion or contraction of a dynamic array. Typically, data structure operations that are used in real-time systems e.g. air traffic control system, web servers etc., a long delay caused a single amortised operation may have an adverse effect.
+- Link-based structures support $O(1)$-time insertions and deletions at arbitrary positions. In contrast, general insertions and deletions are quite expensive in array-based sequences. For example, using a Python `list`, a call to `insert` or `pop` with index ${k}$ takes $O({n - k + 1})$ time because of the loop to shift all subsequent elements.

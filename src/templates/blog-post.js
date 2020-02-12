@@ -8,6 +8,7 @@ import SEO from "../components/seo";
 
 // Utilities
 import { rhythm, scale } from "../utils/typography";
+import kebabCase from "lodash/kebabCase";
 
 class BlogPost extends Component {
   render() {
@@ -51,7 +52,7 @@ class BlogPost extends Component {
                     color: "white",
                     textDecoration: "none"
                   }}
-                  to={`/tags/${tag}`}
+                  to={`/tags/${kebabCase(tag)}`}
                 >
                   {tag}
                 </Link>
