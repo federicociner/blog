@@ -3,7 +3,7 @@ import noriegaTheme from "typography-theme-noriega";
 
 const typography = new Typography(noriegaTheme);
 
-// Hot reload typography in development.
+// Hot reload typography in development
 if (process.env.NODE_ENV !== `production`) {
   typography.injectStyles();
 }

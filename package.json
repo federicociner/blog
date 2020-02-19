@@ -1,7 +1,7 @@
 {
   "name": "federico-ciner",
   "private": true,
-  "description": "My personal website and blog, built with Gatsby and support for the Netlify CMS. The original template was modified from https://github.com/thomaswang/gatsby-personal-starter-blog, which was in turn adapted from the original Gatsby starter blog template.",
+  "description": "My personal website and blog, built with Gatsby and support for the Netlify CMS.",
   "version": "1.0.0",
   "author": "Federico Ciner <federico.ciner@gmail.com>",
   "bugs": {
