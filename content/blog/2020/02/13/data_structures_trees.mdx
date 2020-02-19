@@ -1,0 +1,51 @@
+---
+title: "Data Structures in Python: General Trees"
+date: "2020-02-13T09:48:00+00:00"
+description: "Representing trees using a general tree ADT in Python."
+tags:
+  [
+    "algorithms",
+    "trees",
+    "data structures",
+    "interviews",
+    "programming",
+    "python",
+  ]
+---
+
+## Introducing Trees
+
+After having spent the last few blog posts going through arrays and linked lists, I am now going to spend a few post discussing and implementing tree structures. Trees are widely used in file systems, GUIs, databases, web sites and various other computer systems.
+
+A **tree** is an abstract data type (ADT) that stores elements hierarchically. Each element in a tree has a _parent_ and zero or more _children_ elements. We can define a tree ${T}$ more formally as a set of _nodes_ storing nodes such that the nodes have a _parent-child_ relationship that satisfies the following properties:
+
+- If ${T}$ is non-empty, it has a special node, called the _root_ of ${T}$, that has no parent.
+- Each node ${v}$ of ${T}$ different from the root has a unique _parent_ node ${w}$; every node with parent ${w}$ is a _child_ of ${w}$.
+
+Here are some other properties of trees and the relationships between nodes:
+
+- Two nodes that are children of the same parent are _siblings_.
+- A node ${v}$ is _external_ if ${v}$ has no children. These nodes are otherwise known as _leaves_.
+- A node ${v}$ is _internal_ if it has one or more children.
+- A node ${u}$ is an _ancestor_ of a node ${v}$ if ${u = v}$ or ${u}$ is ancestor of the parent of ${v}$; conversely, we say that a node ${v}$ is a _descendant_ of node ${u}$ if ${u}$ is an ancestor of ${v}$.
+- The _subtree_ of ${T}$ _rooted_ at node ${v}$ is the tree consisting of all the descendants of ${v}$ in ${T}$.
+
+### Edges and Paths in Trees
+
+An _edge_ of tree ${T}$ is a pair of nodes $({u, v})$ such that ${u}$ is the parent of ${v}$, or vice versa. A _path_ of ${T}$ is a sequence of nodes such that any two consecutive nodes in the sequence form an edge.
+
+### Ordered Trees
+
+A tree is ordered if there is a meaningful linear order among the children of each node; that is, we identify the children of a node as being the first, second, third and so on. Such an order is usually visualised by arranging siblings left to right, according to their order.
+
+## The Tree ADT
+
+We will define a tree ADT using the concept of a _position_ as an abstraction for a node of a tree.
+A position object supports the the following method:
+
+- `p.element()`: Return the element stored at position ${p}$.
+
+We can also think of the position element as a node in the tree. Furthermore, the tree ADT supports the following accessor methods:
+
+- `T.root()`: Return the position of the root of tree ${T}$, or `None` if ${T}$ is empty.
+- `T.is_root(p)`: Return `True` if position ${p}$ is the root of tree ${T}$.
