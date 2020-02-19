@@ -188,7 +188,7 @@ To wrap up our discussion of arrays and linked lists, we will compare and contra
 - Operations with equivalent asymptotic bounds typically run a constant factor more efficiently with an array-based structure versus a linked structure i.e. the actual number of CPU operations for similar operations will be more in the linked structure.
 - Array-based representations typically use proportionally less memory than linked structures. An array-based container of ${n}$ elements might require in the worst-case ${2n}$ object references. With linked lists, memory must be devoted not only to store a reference to each contained object, but also explicitly references that link the nodes. Even a singly linked list of length ${n}$ already requires ${2n}$ references, and a doubly linked list will need ${3n}$ references.
 
-### Advantages of Link-base Sequences
+### Advantages of Link-based Sequences
 
 - Link-based structures provide worst-case time bounds for their operations, which is in contrast to the amortised bounds associated with the expansion or contraction of a dynamic array. Typically, data structure operations that are used in real-time systems e.g. air traffic control system, web servers etc., a long delay caused a single amortised operation may have an adverse effect.
 - Link-based structures support $O(1)$-time insertions and deletions at arbitrary positions. In contrast, general insertions and deletions are quite expensive in array-based sequences. For example, using a Python `list`, a call to `insert` or `pop` with index ${k}$ takes $O({n - k + 1})$ time because of the loop to shift all subsequent elements.
