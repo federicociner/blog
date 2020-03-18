@@ -49,3 +49,69 @@ We can also think of the position element as a node in the tree. Furthermore, th
 
 - `T.root()`: Return the position of the root of tree ${T}$, or `None` if ${T}$ is empty.
 - `T.is_root(p)`: Return `True` if position ${p}$ is the root of tree ${T}$.
+- `T.parent(p)`: Return the position of the parent of position ${p}$, or `None` if ${p}$ is the root of ${T}$.
+- `T.num_children(p)`: Return the number of children of position ${p}$.
+- `T.children(p)`: Generates an iteration of the children of position ${p}$.
+- `T.is_leaf(p)`: Return `True` if position ${p}$ does not have any children.
+- `len(T)`: Return the number of positions that are contained in tree ${T}$.
+- `T.is_empty()`: Return `True` if tree ${T}$ does not contain any positions.
+- `T.positions()`: Generate an iteration of all _positions_ of tree ${T}$.
+- `iter(T)`: Generate an iteration of all _elements_ stored within tree ${T}$.
+
+We can use this tree ADT to define an abstract base class `Tree`, which we can use later on to implement concrete classes, such as a binary tree. Furthermore, since the `Tree` class is abstract, there is no reason to create a direct instance of it, since a lot of the methods will remain unimplemented until a concrete subclass uses these methods.
+
+```python
+class Tree:
+    """Abstract base class representing a tree structure. """
+
+    class Position:
+        """An abstraction representing the location of a single element. """
+
+        def element(self):
+            """Return the element stored at this Position. """
+            raise NotImplementedError("must be implemented by subclass")
+
+        def __eq__(self, other):
+            """Return True if other Position represents the same location. """
+            raise NotImplementedError("must be implemented by subclass")
+
+        def __ne__(self, other):
+            """Return True if other does not represent the same location. """
+            return not (self == other)
+
+    def root(self):
+        """Return Position representing the tree's root (or None if empty). """
+        raise NotImplementedError("must be implemented by subclass")
+
+    def parent(self, p):
+        """Return Position representing p's parent (or None if p is root). """
+        raise NotImplementedError("must be implemented by subclass")
+
+    def num_children(self, p):
+        """Return the number of children that Position p has. """
+        raise NotImplementedError("must be implemented by subclass")
+
+    def children(self, p):
+        """Generate an iteration of Positions representing p's children. """
+        raise NotImplementedError("must be implemented by subclass")
+
+    def __len__(self):
+        """Return the total number of elements in the tree. """
+        raise NotImplementedError("must be implemented by subclass")
+
+    def is_root(self, p):
+        """Return True if Position p represents the root of the tree. """
+        return self.root() == p
+
+    def is_leaf(self, p):
+        """Return True if Position p does not have any children. """
+        return self.num_children(p) == 0
+
+    def is_empty(self):
+        """Return True if the tree is empty. """
+        return len(self) == 0
+```
+
+### Computing Depth and Height
+
+In addition to the abstract and concrete methods defined above, we will define two methods for computing the _depth_ and _height_ of a tree ${T}$.

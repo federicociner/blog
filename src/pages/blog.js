@@ -19,6 +19,11 @@ class Blog extends Component {
       <Layout location={this.props.location} title={siteTitle}>
         <Navigation />
         <SEO title="Blog" />
+        <p>
+          A random collection of my thoughts and experiences, ranging from
+          travel and cooking to technical posts about computer science and
+          software engineering.
+        </p>
         <div style={{ margin: "20px 0 40px" }}>
           {posts.map(({ node }) => {
             const title = node.frontmatter.title || node.fields.slug;
