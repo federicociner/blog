@@ -70,7 +70,7 @@ class Layout extends Component {
           style={{
             marginLeft: "auto",
             marginRight: "auto",
-            maxWidth: rhythm(25),
+            maxWidth: rhythm(30),
             padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`
           }}
         >

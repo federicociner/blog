@@ -17,22 +17,22 @@ tags:
 
 After having spent the last few blog posts going through arrays and linked lists, I am now going to spend a few post discussing and implementing tree structures. Trees are widely used in file systems, GUIs, databases, web sites and various other computer systems.
 
-A **tree** is an abstract data type (ADT) that stores elements hierarchically. Each element in a tree has a _parent_ and zero or more _children_ elements. We can define a tree ${T}$ more formally as a set of _nodes_ storing nodes such that the nodes have a _parent-child_ relationship that satisfies the following properties:
+A **tree** is an abstract data type (ADT) that stores elements hierarchically. Each element in a tree has a _parent_ and zero or more _children_ elements. We can define a tree $T$ more formally as a set of _nodes_ storing nodes such that the nodes have a _parent-child_ relationship that satisfies the following properties:
 
-- If ${T}$ is non-empty, it has a special node, called the _root_ of ${T}$, that has no parent.
-- Each node ${v}$ of ${T}$ different from the root has a unique _parent_ node ${w}$; every node with parent ${w}$ is a _child_ of ${w}$.
+- If $T$ is non-empty, it has a special node, called the _root_ of $T$, that has no parent.
+- Each node $v$ of $T$ different from the root has a unique _parent_ node $w$; every node with parent $w$ is a _child_ of $w$.
 
 Here are some other properties of trees and the relationships between nodes:
 
 - Two nodes that are children of the same parent are _siblings_.
-- A node ${v}$ is _external_ if ${v}$ has no children. These nodes are otherwise known as _leaves_.
-- A node ${v}$ is _internal_ if it has one or more children.
-- A node ${u}$ is an _ancestor_ of a node ${v}$ if ${u = v}$ or ${u}$ is ancestor of the parent of ${v}$; conversely, we say that a node ${v}$ is a _descendant_ of node ${u}$ if ${u}$ is an ancestor of ${v}$.
-- The _subtree_ of ${T}$ _rooted_ at node ${v}$ is the tree consisting of all the descendants of ${v}$ in ${T}$.
+- A node $v$ is _external_ if $v$ has no children. These nodes are otherwise known as _leaves_.
+- A node $v$ is _internal_ if it has one or more children.
+- A node $u$ is an _ancestor_ of a node $v$ if $u = v$ or $u$ is ancestor of the parent of $v$; conversely, we say that a node $v$ is a _descendant_ of node $u$ if $u$ is an ancestor of $v$.
+- The _subtree_ of $T$ _rooted_ at node $v$ is the tree consisting of all the descendants of $v$ in $T$.
 
 ### Edges and Paths in Trees
 
-An _edge_ of tree ${T}$ is a pair of nodes $({u, v})$ such that ${u}$ is the parent of ${v}$, or vice versa. A _path_ of ${T}$ is a sequence of nodes such that any two consecutive nodes in the sequence form an edge.
+An _edge_ of tree $T$ is a pair of nodes $({u, v})$ such that $u$ is the parent of $v$, or vice versa. A _path_ of $T$ is a sequence of nodes such that any two consecutive nodes in the sequence form an edge.
 
 ### Ordered Trees
 
@@ -43,20 +43,20 @@ A tree is ordered if there is a meaningful linear order among the children of ea
 We will define a tree ADT using the concept of a _position_ as an abstraction for a node of a tree.
 A position object supports the the following method:
 
-- `p.element()`: Return the element stored at position ${p}$.
+- `p.element()`: Return the element stored at position $p$.
 
 We can also think of the position element as a node in the tree. Furthermore, the tree ADT supports the following accessor methods:
 
-- `T.root()`: Return the position of the root of tree ${T}$, or `None` if ${T}$ is empty.
-- `T.is_root(p)`: Return `True` if position ${p}$ is the root of tree ${T}$.
-- `T.parent(p)`: Return the position of the parent of position ${p}$, or `None` if ${p}$ is the root of ${T}$.
-- `T.num_children(p)`: Return the number of children of position ${p}$.
-- `T.children(p)`: Generates an iteration of the children of position ${p}$.
-- `T.is_leaf(p)`: Return `True` if position ${p}$ does not have any children.
-- `len(T)`: Return the number of positions that are contained in tree ${T}$.
-- `T.is_empty()`: Return `True` if tree ${T}$ does not contain any positions.
-- `T.positions()`: Generate an iteration of all _positions_ of tree ${T}$.
-- `iter(T)`: Generate an iteration of all _elements_ stored within tree ${T}$.
+- `T.root()`: Return the position of the root of tree $T$, or `None` if $T$ is empty.
+- `T.is_root(p)`: Return `True` if position $p$ is the root of tree $T$.
+- `T.parent(p)`: Return the position of the parent of position $p$, or `None` if $p$ is the root of $T$.
+- `T.num_children(p)`: Return the number of children of position $p$.
+- `T.children(p)`: Generates an iteration of the children of position $p$.
+- `T.is_leaf(p)`: Return `True` if position $p$ does not have any children.
+- `len(T)`: Return the number of positions that are contained in tree $T$.
+- `T.is_empty()`: Return `True` if tree $T$ does not contain any positions.
+- `T.positions()`: Generate an iteration of all _positions_ of tree $T$.
+- `iter(T)`: Generate an iteration of all _elements_ stored within tree $T$.
 
 We can use this tree ADT to define an abstract base class `Tree`, which we can use later on to implement concrete classes, such as a binary tree. Furthermore, since the `Tree` class is abstract, there is no reason to create a direct instance of it, since a lot of the methods will remain unimplemented until a concrete subclass uses these methods.
 
@@ -114,4 +114,61 @@ class Tree:
 
 ### Computing Depth and Height
 
-In addition to the abstract and concrete methods defined above, we will define two methods for computing the _depth_ and _height_ of a tree ${T}$. The depth of position ${p}$ is the number of ancestors of ${p}$, excluding ${p}$ itself.
+#### Depth
+
+In addition to the abstract and concrete methods defined above, we will define two methods for computing the _depth_ and _height_ of a tree $T$. The depth of position $p$ is the number of ancestors of $p$, excluding $p$ itself. We can also define depth recursively as follows:
+
+- If $p$ is the root, the depth of $p$ is 0.
+- Otherwise, the depth of $p$ is one plus the depth of the parent of $p$.
+
+We can use this definition to define a simple recursive algorithm to compute the depth of a position $p$ in a tree $T$:
+
+```python
+def depth(self, p):
+    """Return the number of levels separating Position p from the root. """
+    if self.is_root(p):
+        return 0
+    else:
+        return 1 + self.depth(self.parent(p))
+```
+
+The worst-case running time of `T.depth(p)` for position $p$ is $O(n)$, where $n$ is the total number of positions of $T$, since a position of $T$ may have depth $n - 1$ if all nodes form a single branch.
+
+#### Height
+
+The height of a position $p$ in a tree $T$ can also be defined recursively:
+
+- If $p$ is a leaf, then the height of $p$ is 0.
+- Otherwise, the height of $p$ is one more than the maximum of the heights of $p$'s children.
+
+The height of a non-empty tree $T$ is the height of the root of $T$. We can use a private helper method to recursively compute the height of a position $p$:
+
+```python
+def _height(self, p):
+    """Return the height of the subtree rooted at Position p. """
+    if self.is_leaf(p):
+        return 0
+    else:
+        return 1 + max(self._height(c) for c in self.children(p))
+```
+
+Assuming that a concrete implementation of `children(p)` will run in $O(c_p + 1)$ time, where $c_p$ denotes the number of children of $p$, this algorithm will have a worst-case running time of $O(n)$. The algorithm spends $O(c_p + 1)$ time at each position $p$ to compute the maximum, and therefore its overall running time is $O(\sum_{p}(c_p + 1))$. To prove this, let $T$ be a tree with $n$ positions, and let $c_p$ denote the number of children of a position $p$ of $T$. Then, summing over the positions of $T$, $\sum_{p}c_p = n - 1$.
+
+We can then use this private helper method to implemented a public `height` method, which allows a user to compute the height of an entire tree without explicitly designating the tree root as a parameter.
+
+```python
+def height(self, p = None):
+    """Return the height of the subtree rooted at Position p.
+
+    If p is None, return the height of the entire tree.
+
+    """
+    if p is None:
+        p = self.root()
+
+    return self._height(p)
+```
+
+## Summary
+
+Now that we have our basic `Tree` abstract class and the appropriate helper methods to calculate the depth and height of the tree, we can now tackle some concrete implementations of tree-like data structures. In the next post of this series, I will discuss the binary tree and some tree traversal algorithms using binary trees.

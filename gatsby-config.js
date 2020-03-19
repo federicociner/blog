@@ -2,17 +2,17 @@ module.exports = {
   siteMetadata: {
     title: `Federico Ciner`,
     author: `Federico Ciner`,
-    description: `My personal portfolio website, which personal information and a blog. I currently host this site on Netlify.`,
+    description: `My personal website, currently hosted on Netlify.`,
     siteUrl: `https://federicociner.com/`
   },
   plugins: [
+    `gatsby-plugin-feed-mdx`,
+    `gatsby-plugin-offline`,
     `gatsby-plugin-netlify-cms`,
+    `gatsby-plugin-react-helmet`,
+    `gatsby-plugin-sharp`,
     `gatsby-plugin-styled-components`,
     `gatsby-transformer-sharp`,
-    `gatsby-plugin-sharp`,
-    `gatsby-plugin-offline`,
-    `gatsby-plugin-react-helmet`,
-    `gatsby-plugin-feed-mdx`,
     {
       resolve: `gatsby-source-filesystem`,
       options: {
