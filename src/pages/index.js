@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { graphql } from "gatsby";
+import Img from "gatsby-image";
 
 // Components
 import Layout from "../components/layout";
@@ -20,25 +21,24 @@ class IndexPage extends Component {
         />
         <h1>Hello.</h1>
         <p>Welcome to my website, I hope you enjoy your stay!</p>
-        <img
-          style={{ margin: 0, border: "0.1px solid black" }}
-          src="./torres.svg"
-          alt="Hiking in Torres del Paine."
-        />
-        <small>
-          The result of trying to convert a picture of me hiking in Torres del
-          Paine National Park to an SVG image.
-        </small>
+        <Img fluid={data.siteImage.childImageSharp.fluid} />
       </Layout>
     );
   }
 }
 
 export const pageQuery = graphql`
-  query {
+  query pageQuery {
     site {
       siteMetadata {
         title
+      }
+    }
+    siteImage: file(relativePath: { eq: "images/milford_sound.jpg" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid
+        }
       }
     }
   }
