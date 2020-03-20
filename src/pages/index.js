@@ -22,6 +22,9 @@ class IndexPage extends Component {
         <h1>Hello.</h1>
         <p>Welcome to my website, I hope you enjoy your stay!</p>
         <Img fluid={data.siteImage.childImageSharp.fluid} />
+        <small>
+          Milford Sound, New Zealand, one of the most beautiful places on Earth.
+        </small>
       </Layout>
     );
   }
