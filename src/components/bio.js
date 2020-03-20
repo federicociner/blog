@@ -15,13 +15,12 @@ function Bio() {
         return (
           <Container>
             <Image
-              fluid={data.avatar.childImageSharp.fluid}
+              fixed={data.avatar.childImageSharp.fixed}
               alt={author}
               style={{
                 marginRight: rhythm(1 / 2),
                 marginBottom: 0,
-                minWidth: 100,
-                minHeight: 100,
+                minWidth: 50,
                 borderRadius: `100%`
               }}
               imgStyle={{
@@ -44,8 +43,8 @@ const bioQuery = graphql`
   query BioQuery {
     avatar: file(relativePath: { eq: "images/profile_pic.png" }) {
       childImageSharp {
-        fluid(maxWidth: 100, maxHeight: 100) {
-          ...GatsbyImageSharpFluid
+        fixed(width: 60, height: 60) {
+          ...GatsbyImageSharpFixed
         }
       }
     }
