@@ -36,7 +36,7 @@ class Layout extends Component {
               textDecoration: "none",
               color: "inherit"
             }}
-            to={location.pathname === blogPath ? "/" : "/"}
+            to={location.pathname === rootPath ? "/" : "/"}
           >
             {title}
           </Link>
@@ -56,7 +56,7 @@ class Layout extends Component {
               textDecoration: "none",
               color: "inherit"
             }}
-            to={"/blog/"}
+            to={"/"}
           >
             {title}
           </Link>
