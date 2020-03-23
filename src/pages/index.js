@@ -23,8 +23,7 @@ class IndexPage extends Component {
         <p>Welcome to my website, I hope you enjoy your stay!</p>
         <Img fluid={data.siteImage.childImageSharp.fluid} />
         <small>
-          Walking on the incredible Perito Moreno glacier in El Calafate,
-          Argentina.
+          Walking on the Perito Moreno glacier in El Calafate, Argentina.
         </small>
       </Layout>
     );

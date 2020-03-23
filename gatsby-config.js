@@ -2,7 +2,7 @@ module.exports = {
   siteMetadata: {
     title: `Federico Ciner`,
     author: `Federico Ciner`,
-    description: `My personal website, currently hosted on Netlify.`,
+    description: `My personal website.`,
     siteUrl: `https://federicociner.com/`
   },
   plugins: [
@@ -25,6 +25,12 @@ module.exports = {
       options: {
         path: `${__dirname}/content/assets`,
         name: `assets`
+      }
+    },
+    {
+      resolve: "gatsby-plugin-netlify-cms",
+      options: {
+        modulePath: `${__dirname}/src/cms/cms.js`
       }
     },
     {
@@ -86,6 +92,10 @@ module.exports = {
       options: {
         pathToConfigModule: `src/utils/typography`
       }
+    },
+    {
+      resolve: `gatsby-transformer-remark`,
+      options: { plugins: [`gatsby-remark-images-anywhere`] }
     }
   ]
 };
