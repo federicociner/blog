@@ -92,10 +92,6 @@ module.exports = {
       options: {
         pathToConfigModule: `src/utils/typography`
       }
-    },
-    {
-      resolve: `gatsby-transformer-remark`,
-      options: { plugins: [`gatsby-remark-images-anywhere`] }
     }
   ]
 };
