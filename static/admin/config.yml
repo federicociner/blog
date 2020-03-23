@@ -11,9 +11,8 @@ media_library:
         cloud_name: federicociner-com
         api_key: 319647146488792
         default_transformations:
-            - - fetch_format: auto
+            - - width: 50
                 quality: auto
-                width: 50
                 dpr: auto
 
 collections:
