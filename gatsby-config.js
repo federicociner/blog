@@ -41,8 +41,24 @@ module.exports = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 590
+              maxWidth: 590,
+              markdownCaptions: true,
+              showCaptions: true,
+              withWebp: true
             }
+          },
+          {
+            resolve: `gatsby-remark-autolink-headers`
+          },
+          {
+            resolve: `gatsby-remark-copy-linked-files`
+          },
+          {
+            resolve: `gatsby-remark-figure-caption`,
+            options: { figureClassName: `md-figure` }
+          },
+          {
+            resolve: `gatsby-remark-katex`
           },
           {
             resolve: `gatsby-remark-responsive-iframe`,
@@ -51,19 +67,10 @@ module.exports = {
             }
           },
           {
-            resolve: `gatsby-remark-vscode`
-          },
-          {
-            resolve: `gatsby-remark-copy-linked-files`
-          },
-          {
             resolve: `gatsby-remark-smartypants`
           },
           {
-            resolve: `gatsby-remark-autolink-headers`
-          },
-          {
-            resolve: `gatsby-remark-katex`
+            resolve: `gatsby-remark-vscode`
           }
         ]
       }

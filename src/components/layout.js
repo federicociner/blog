@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link } from "gatsby";
 import styled from "styled-components";
+import "./layout.css";
 
 // Utilities
 import { rhythm, scale } from "../utils/typography";

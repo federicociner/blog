@@ -1,0 +1,10 @@
+img {
+  display: block;
+}
+
+.md-figure {
+  font-style: italic;
+  font-size: smaller;
+  line-height: 0;
+  text-align: center;
+}

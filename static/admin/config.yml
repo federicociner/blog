@@ -10,10 +10,6 @@ media_library:
     config:
         cloud_name: federicociner-com
         api_key: 319647146488792
-        default_transformations:
-            - - width: 50
-                quality: auto
-                dpr: auto
 
 collections:
   - name: blog
