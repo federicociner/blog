@@ -13,9 +13,8 @@ media_library:
         default_transformations:
             - - fetch_format: auto
                 quality: auto
-                width: auto
-                drp: auto
-
+                width: 50
+                dpr: auto
 
 collections:
   - name: blog
