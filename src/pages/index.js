@@ -23,7 +23,7 @@ class IndexPage extends Component {
         <p>Welcome to my website, I hope you enjoy your stay!</p>
         <Img fluid={data.siteImage.childImageSharp.fluid} />
         <small>
-          Milford Sound, New Zealand, one of the most beautiful places on Earth.
+          Walking on the Perito Moreno glacier in El Calafate, Argentina.
         </small>
       </Layout>
     );
@@ -37,7 +37,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    siteImage: file(relativePath: { eq: "images/milford_sound.jpg" }) {
+    siteImage: file(relativePath: { eq: "images/perito_moreno.jpg" }) {
       childImageSharp {
         fluid {
           ...GatsbyImageSharpFluid

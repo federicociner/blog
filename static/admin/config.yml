@@ -5,6 +5,18 @@ backend:
 media_folder: static/assets
 public_folder: assets
 
+media_library:
+    name: cloudinary
+    config:
+        cloud_name: federicociner-com
+        api_key: 319647146488792
+        default_transformations:
+            - - fetch_format: auto
+                quality: auto
+                width: auto
+                drp: auto
+
+
 collections:
   - name: blog
     label: Blog
