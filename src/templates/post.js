@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Link, graphql } from "gatsby";
 import { MDXRenderer } from "gatsby-plugin-mdx";
+import { DiscussionEmbed } from "disqus-react";
 
 // Components
 import Layout from "../components/layout";
@@ -13,6 +14,10 @@ import kebabCase from "lodash/kebabCase";
 class BlogPost extends Component {
   render() {
     const post = this.props.data.mdx;
+    const disqusConfig = {
+      shortname: process.env.GATSBY_DISQUS_NAME,
+      config: { identifier: post.id }
+    };
     const siteTitle = this.props.data.site.siteMetadata.title;
     const { previous, next } = this.props.pageContext;
 
@@ -61,6 +66,7 @@ class BlogPost extends Component {
           })}
         </p>
         <MDXRenderer>{post.body}</MDXRenderer>
+        <DiscussionEmbed {...disqusConfig} />
         <hr
           style={{
             marginBottom: rhythm(1)
@@ -78,14 +84,14 @@ class BlogPost extends Component {
           <li>
             {previous && (
               <Link to={`blog${previous.fields.slug}`} rel="prev">
-                ← {previous.frontmatter.title}
+                <b>← Previous Post</b>
               </Link>
             )}
           </li>
           <li>
             {next && (
               <Link to={`blog${next.fields.slug}`} rel="next">
-                {next.frontmatter.title} →
+                <b>Next Post →</b>
               </Link>
             )}
           </li>

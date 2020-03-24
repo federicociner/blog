@@ -1,3 +1,6 @@
+// Load environment variables from .env file
+require("dotenv").config();
+
 module.exports = {
   siteMetadata: {
     title: `Federico Ciner`,
@@ -17,6 +20,7 @@ module.exports = {
       resolve: `gatsby-source-filesystem`,
       options: {
         path: `${__dirname}/content/blog`,
+        ignore: process.env.NODE_ENV === `production` && [`**/drafts`],
         name: `blog`
       }
     },
@@ -78,7 +82,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
-        trackingId: `UA-158733736-1`,
+        trackingId: process.env.GOOGLE_ANALYTICS_ID,
         respectDNT: true
       }
     },

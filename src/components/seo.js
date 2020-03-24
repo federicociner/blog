@@ -49,10 +49,6 @@ function SEO({ description, lang, meta, keywords, title }) {
         {
           property: `og:type`,
           content: `website`
-        },
-        {
-          name: `twitter:card`,
-          content: `summary`
         }
       ]
         .concat(

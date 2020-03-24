@@ -2,11 +2,11 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d83e7b9a-4e4d-4dc5-a8ea-a75fc16a1276/deploy-status)](https://app.netlify.com/sites/federicociner/deploys)
 
-My personal website, a static site created with Gatsby and hosted on Netlify. Currently, it contains the following components:
+Code for my personal website at [federicociner.com](https://federicociner.com/), built with Gatsby and hosted on Netlify. Currently, it uses the following libraries:
 
-- **About Me**: A short description of who I am and what I do.
-- **Blog**: A simple blog in which in post my own random thoughts and experiences. An "anything goes" blog at this point, until I decide to narrow the focus or subject matter.
-- **Resume**: Summary of work education and work experiences, as well as a link to current version of PDF resume.
+- [MDX](https://mdxjs.com/) for blogging and interactive content
+- [Cloudinary](https://cloudinary.com/) for media assets such as photos and videos
+- [KaTex](https://katex.org/) for typesetting math and scientific formulas
 
 ## Build and Run
 
@@ -15,11 +15,11 @@ To build and run this website locally, you will need to have `npm` and `gatsby-c
 1. Clone this repository locally and `cd` to the root of the project.
 
    ```sh
-   git clone https://github.com/federicociner/federicociner.com
-   cd federicociner.com
+   git clone https://github.com/federicociner/federicociner.com \
+   && cd federicociner.com
    ```
 
-1. Install required packages locally by running `npm build` in the root of the project, which will download required modules to the `node_modules` folder.
+1. Install dependencies by running `npm build` in the root of the project, which will download required modules to the `node_modules` folder.
 
 1. To run a local development server, run:
 
@@ -41,9 +41,3 @@ Here's a list of tutorials and resources I used while creating this website:
 
 1. [Making a Gatsby Blog with Netlify CMS](https://www.gatsbyjs.org/tutorial/blog-netlify-cms-tutorial/)
 1. [Typography.js](https://kyleamathews.github.io/typography.js/)
-
-## TODO
-
-- Add `Contact` page with mail form.
-- Add social media button bar for Facebook, LinkedIn and GitHub.
-- Create `Resume` page with download link to PDF version.
