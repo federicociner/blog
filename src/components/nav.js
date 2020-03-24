@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link } from "gatsby";
 
 // Components
-import Button from "../components/button";
+import Button from "components/button";
 
 class Navigation extends Component {
   render() {

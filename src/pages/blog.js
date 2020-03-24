@@ -2,12 +2,12 @@ import React, { Component } from "react";
 import { Link, graphql } from "gatsby";
 
 // Components
-import Layout from "../components/layout";
-import Navigation from "../components/nav";
-import SEO from "../components/seo";
+import Layout from "components/Layout";
+import Navigation from "components/nav";
+import SEO from "components/seo";
 
 // Utilities
-import { rhythm } from "../utils/typography";
+import { rhythm } from "utils/typography";
 
 class Blog extends Component {
   render() {

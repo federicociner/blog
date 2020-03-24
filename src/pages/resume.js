@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { graphql } from "gatsby";
 
 // Components
-import Button from "../components/button";
-import Layout from "../components/layout";
-import Navigation from "../components/nav";
-import SEO from "../components/seo";
+import Button from "components/button";
+import Layout from "components/Layout";
+import Navigation from "components/nav";
+import SEO from "components/seo";
 
 class ResumePage extends Component {
   state = {

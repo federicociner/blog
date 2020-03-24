@@ -2,9 +2,9 @@ import React, { Component } from "react";
 
 // Components
 import { Link, graphql } from "gatsby";
-import Layout from "../components/layout";
-import Navigation from "../components/nav";
-import SEO from "../components/seo";
+import Layout from "components/Layout";
+import Navigation from "components/nav";
+import SEO from "components/seo";
 
 // Utilities
 import kebabCase from "lodash/kebabCase";

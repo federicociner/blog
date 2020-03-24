@@ -2,10 +2,10 @@ import React, { Component } from "react";
 import { graphql } from "gatsby";
 
 // Components
-import Bio from "../components/bio";
-import Layout from "../components/layout";
-import Navigation from "../components/nav";
-import SEO from "../components/seo";
+import Bio from "components/bio";
+import Layout from "components/Layout";
+import Navigation from "components/nav";
+import SEO from "components/seo";
 
 class AboutPage extends Component {
   render() {

@@ -1,13 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "gatsby";
 import styled from "styled-components";
-import "./layout.css";
+import "./style.css";
 
 // Components
-import Button from "../components/button";
+import Button from "components/button";
 
 // Utilities
-import { rhythm, scale } from "../utils/typography";
+import { rhythm, scale } from "utils/typography";
 
 class Layout extends Component {
   render() {

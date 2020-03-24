@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Link, graphql } from "gatsby";
 
 // Components
-import Layout from "../components/layout";
+import Layout from "components/Layout";
 
 class Tag extends Component {
   render() {

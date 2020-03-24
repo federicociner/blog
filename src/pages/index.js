@@ -3,9 +3,9 @@ import { graphql } from "gatsby";
 import Img from "gatsby-image";
 
 // Components
-import Layout from "../components/layout";
-import Navigation from "../components/nav";
-import SEO from "../components/seo";
+import Layout from "components/Layout";
+import Navigation from "components/nav";
+import SEO from "components/seo";
 
 class IndexPage extends Component {
   render() {

@@ -4,11 +4,11 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import { DiscussionEmbed } from "disqus-react";
 
 // Components
-import Layout from "../components/layout";
-import SEO from "../components/seo";
+import Layout from "components/Layout";
+import SEO from "components/seo";
 
 // Utilities
-import { rhythm, scale } from "../utils/typography";
+import { rhythm, scale } from "utils/typography";
 import kebabCase from "lodash/kebabCase";
 
 class BlogPost extends Component {
