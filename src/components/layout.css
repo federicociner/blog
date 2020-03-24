@@ -2,9 +2,8 @@ img {
   display: block;
 }
 
-.md-figure {
-  font-style: italic;
+figcaption {
   font-size: smaller;
-  line-height: 0;
+  font-style: italic;
   text-align: center;
 }
