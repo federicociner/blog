@@ -3,6 +3,9 @@ import { Link } from "gatsby";
 import styled from "styled-components";
 import "./layout.css";
 
+// Components
+import Button from "../components/button";
+
 // Utilities
 import { rhythm, scale } from "../utils/typography";
 
@@ -45,23 +48,11 @@ class Layout extends Component {
       );
     } else {
       header = (
-        <h3
-          style={{
-            fontFamily: "Montserrat, sans-serif",
-            marginTop: 0
-          }}
-        >
-          <Link
-            style={{
-              boxShadow: "none",
-              textDecoration: "none",
-              color: "inherit"
-            }}
-            to={"/"}
-          >
-            {title}
+        <div style={{ display: "flex", marginBottom: "25px" }}>
+          <Link style={{ textDecoration: "none" }} to="/">
+            <Button>Back to Home</Button>
           </Link>
-        </h3>
+        </div>
       );
     }
 
