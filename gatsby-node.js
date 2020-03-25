@@ -6,12 +6,14 @@ exports.createPages = async ({ graphql, actions }) => {
   const { createPage } = actions;
   const blogPost = path.resolve("./src/templates/post.js");
   const tagTemplate = path.resolve("./src/templates/tag.js");
+
   const result = await graphql(
     `
       {
         postsRemark: allMdx(
+          filter: { fileAbsolutePath: { regex: "/blog/" } }
           sort: { fields: [frontmatter___date], order: DESC }
-          limit: 2000
+          limit: 1000
         ) {
           edges {
             node {
@@ -39,10 +41,9 @@ exports.createPages = async ({ graphql, actions }) => {
     return;
   }
 
-  // Create post data from query
+  // Create blog post pages
   const posts = result.data.postsRemark.edges;
 
-  // Create post pages
   posts.forEach((post, index) => {
     const previous = index === posts.length - 1 ? null : posts[index + 1].node;
     const next = index === 0 ? null : posts[index - 1].node;
@@ -54,6 +55,23 @@ exports.createPages = async ({ graphql, actions }) => {
         slug: post.node.fields.slug,
         previous,
         next
+      }
+    });
+  });
+
+  // Create blog post list pages
+  const postsPerPage = 5;
+  const numPages = Math.ceil(posts.length / postsPerPage);
+
+  Array.from({ length: numPages }).forEach((_, i) => {
+    createPage({
+      path: i === 0 ? `/blog/` : `/blog/${i + 1}`,
+      component: path.resolve("./src/templates/post-list.js"),
+      context: {
+        limit: postsPerPage,
+        skip: i * postsPerPage,
+        numPages,
+        currentPage: i + 1
       }
     });
   });

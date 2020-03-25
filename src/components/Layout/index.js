@@ -14,15 +14,20 @@ class Layout extends Component {
     const { location, title, children } = this.props;
     const rootPath = `${__PATH_PREFIX__}/`;
     const aboutPath = `${__PATH_PREFIX__}/about/`;
-    const blogPath = `${__PATH_PREFIX__}/blog/`;
     const resumePath = `${__PATH_PREFIX__}/resume/`;
     const tagsPath = `${__PATH_PREFIX__}/tags/`;
+
+    // Get paginated paths for blog listings, if available
+    const pageList = this.props.pageList
+      ? this.props.pageList.edges.map(e => e.node.path)
+      : [];
+
     let header;
 
     if (
+      pageList.includes(location.pathname) ||
       location.pathname === rootPath ||
       location.pathname === aboutPath ||
-      location.pathname === blogPath ||
       location.pathname === resumePath ||
       location.pathname === tagsPath
     ) {
@@ -62,7 +67,7 @@ class Layout extends Component {
           style={{
             marginLeft: "auto",
             marginRight: "auto",
-            maxWidth: rhythm(30),
+            maxWidth: rhythm(28),
             padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`
           }}
         >

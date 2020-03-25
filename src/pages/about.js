@@ -14,7 +14,7 @@ class AboutPage extends Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="About Me" />
+        <SEO title={siteTitle} />
         <Navigation />
         <h1> About Me</h1>
         <Bio />

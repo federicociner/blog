@@ -11,7 +11,7 @@ import SEO from "components/seo";
 import { rhythm, scale } from "utils/typography";
 import kebabCase from "lodash/kebabCase";
 
-class BlogPost extends Component {
+class Post extends Component {
   render() {
     const post = this.props.data.mdx;
     const disqusConfig = {
@@ -84,14 +84,14 @@ class BlogPost extends Component {
           <li>
             {previous && (
               <Link to={`blog${previous.fields.slug}`} rel="prev">
-                <b>← Previous Post</b>
+                <b>Previous Post</b>
               </Link>
             )}
           </li>
           <li>
             {next && (
               <Link to={`blog${next.fields.slug}`} rel="next">
-                <b>Next Post →</b>
+                <b>Next Post</b>
               </Link>
             )}
           </li>
@@ -101,10 +101,10 @@ class BlogPost extends Component {
   }
 }
 
-export default BlogPost;
+export default Post;
 
 export const pageQuery = graphql`
-  query BlogPostBySlug($slug: String!) {
+  query postBySlug($slug: String!) {
     site {
       siteMetadata {
         title

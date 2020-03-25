@@ -18,7 +18,7 @@ class Tags extends Component {
     return (
       <Layout location={this.props.location} title={siteTitle}>
         <Navigation />
-        <SEO title="Tags" />
+        <SEO title={siteTitle} keywords={["tags", "blog", "categories"]} />
         <div>
           <h1>Tags</h1>
           <ul>

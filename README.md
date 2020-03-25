@@ -4,9 +4,10 @@
 
 Code for my personal website at [federicociner.com](https://federicociner.com/), built with Gatsby and hosted on Netlify. Currently, it uses the following libraries:
 
-- [MDX](https://mdxjs.com/) for blogging and interactive content
 - [Cloudinary](https://cloudinary.com/) for media assets such as photos and videos
 - [KaTex](https://katex.org/) for typesetting math and scientific formulas
+- [MDX](https://mdxjs.com/) for blogging and interactive content
+- [styled-components](https://styled-components.com/) for the appearance of various components on my site
 
 ## Build and Run
 
@@ -41,3 +42,4 @@ Here's a list of tutorials and resources I used while creating this website:
 
 1. [Making a Gatsby Blog with Netlify CMS](https://www.gatsbyjs.org/tutorial/blog-netlify-cms-tutorial/)
 1. [Typography.js](https://kyleamathews.github.io/typography.js/)
+1. [Janosh Riebesell's personal website](https://github.com/janosh/janosh.io)

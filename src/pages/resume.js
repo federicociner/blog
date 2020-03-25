@@ -18,7 +18,7 @@ class ResumePage extends Component {
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
-        <SEO title="Resume" />
+        <SEO title={siteTitle} />
         <Navigation />
         <p>Click below to download a copy of my resume.</p>
         <a
