@@ -20,7 +20,7 @@ To build and run this website locally, you will need to have `npm` and `gatsby-c
    && cd federicociner.com
    ```
 
-1. Install dependencies by running `npm build` in the root of the project, which will download required modules to the `node_modules` folder.
+1. Install dependencies by running `npm install` in the root of the project, which will download required modules to the `node_modules` folder.
 
 1. To run a local development server, run:
 
