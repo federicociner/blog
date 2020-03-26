@@ -84,14 +84,14 @@ class Post extends Component {
           <li>
             {previous && (
               <Link to={`blog${previous.fields.slug}`} rel="prev">
-                <b>Previous Post</b>
+                <b>Previous post</b>
               </Link>
             )}
           </li>
           <li>
             {next && (
               <Link to={`blog${next.fields.slug}`} rel="next">
-                <b>Next Post</b>
+                <b>Next post</b>
               </Link>
             )}
           </li>

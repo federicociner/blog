@@ -68,7 +68,7 @@ class PostList extends Component {
         >
           {!isFirst && (
             <Link to={`blog/${prevPage}`} rel="prev">
-              Previous Page
+              Previous page
             </Link>
           )}
           {Array.from({ length: numPages }, (_, i) => (
@@ -93,7 +93,7 @@ class PostList extends Component {
           ))}
           {!isLast && (
             <Link to={`blog/${nextPage}`} rel="next">
-              Next Page
+              Next page
             </Link>
           )}
         </ul>
