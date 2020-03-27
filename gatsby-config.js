@@ -11,6 +11,7 @@ module.exports = {
   plugins: [
     `gatsby-plugin-feed-mdx`,
     `gatsby-plugin-offline`,
+    `gatsby-plugin-netlify-cache`,
     `gatsby-plugin-netlify-cms`,
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sharp`,
