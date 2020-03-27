@@ -56,6 +56,9 @@ module.exports = {
             resolve: `gatsby-remark-autolink-headers`
           },
           {
+            resolve: `gatsby-remark-lazy-load`
+          },
+          {
             resolve: `gatsby-remark-copy-linked-files`
           },
           {
