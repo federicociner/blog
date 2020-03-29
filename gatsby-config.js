@@ -12,7 +12,7 @@ module.exports = {
     `gatsby-plugin-feed-mdx`,
     `gatsby-plugin-offline`,
     `gatsby-plugin-netlify-cache`,
-    `gatsby-plugin-netlify-cms`,
+    "gatsby-plugin-netlify-cms",
     `gatsby-plugin-react-helmet`,
     `gatsby-plugin-sharp`,
     `gatsby-plugin-styled-components`,
@@ -33,12 +33,6 @@ module.exports = {
       }
     },
     {
-      resolve: "gatsby-plugin-netlify-cms",
-      options: {
-        modulePath: `${__dirname}/src/cms/cms.js`
-      }
-    },
-    {
       resolve: `gatsby-plugin-mdx`,
       options: {
         extensions: [".mdx", ".md"],
@@ -46,21 +40,12 @@ module.exports = {
           {
             resolve: `gatsby-remark-images`,
             options: {
-              maxWidth: 590,
               markdownCaptions: true,
-              showCaptions: true,
-              withWebp: true
+              showCaptions: true
             }
           },
           {
             resolve: `gatsby-remark-autolink-headers`
-          },
-          {
-            resolve: `gatsby-remark-copy-linked-files`
-          },
-          {
-            resolve: `gatsby-remark-figure-caption`,
-            options: { figureClassName: `md-figure` }
           },
           {
             resolve: `gatsby-remark-katex`
