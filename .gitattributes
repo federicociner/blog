@@ -1,2 +1,4 @@
 content/blog/**/*.jpg filter=lfs diff=lfs merge=lfs -text
 content/blog/**/*.png filter=lfs diff=lfs merge=lfs -text
+content/assets/images/blog/**/*.jpg filter=lfs diff=lfs merge=lfs -text
+content/assets/images/blog/**/*.png filter=lfs diff=lfs merge=lfs -text
