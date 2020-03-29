@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { Link, graphql } from "gatsby";
+import { MDXProvider } from "@mdx-js/react";
 import { MDXRenderer } from "gatsby-plugin-mdx";
 import { DiscussionEmbed } from "disqus-react";
 
@@ -65,7 +66,9 @@ class Post extends Component {
             );
           })}
         </p>
-        <MDXRenderer>{post.body}</MDXRenderer>
+        <MDXProvider>
+          <MDXRenderer>{post.body}</MDXRenderer>
+        </MDXProvider>
         <DiscussionEmbed {...disqusConfig} />
         <hr
           style={{

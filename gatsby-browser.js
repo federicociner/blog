@@ -4,3 +4,6 @@ import "typeface-merriweather";
 
 // LaTeX support
 import "katex/dist/katex.min.css";
+
+// Load lazysizes
+import "lazysizes";
