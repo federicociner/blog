@@ -23,7 +23,7 @@ class Post extends Component {
     const siteTitle = this.props.data.site.siteMetadata.title;
     const { previous, next } = this.props.pageContext;
 
-    // custom components
+    // Custom MDX components
     const shortcodes = { BlogImage };
 
     return (
