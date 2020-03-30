@@ -5,6 +5,7 @@ import { MDXRenderer } from "gatsby-plugin-mdx";
 import { DiscussionEmbed } from "disqus-react";
 
 // Components
+import BlogImage from "components/blog-image";
 import Layout from "components/Layout";
 import SEO from "components/seo";
 
@@ -21,6 +22,9 @@ class Post extends Component {
     };
     const siteTitle = this.props.data.site.siteMetadata.title;
     const { previous, next } = this.props.pageContext;
+
+    // custom components
+    const shortcodes = { BlogImage };
 
     return (
       <Layout location={this.props.location} title={siteTitle}>
@@ -66,7 +70,7 @@ class Post extends Component {
             );
           })}
         </p>
-        <MDXProvider>
+        <MDXProvider components={shortcodes}>
           <MDXRenderer>{post.body}</MDXRenderer>
         </MDXProvider>
         <DiscussionEmbed {...disqusConfig} />
