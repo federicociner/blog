@@ -17,7 +17,7 @@ class IndexPage extends Component {
         <Navigation />
         <SEO
           title="Home"
-          keywords={[`blog`, `gatsby`, `javascript`, `react`]}
+          keywords={["blog", "gatsby", "javascript", "react"]}
         />
         <h1>Hello.</h1>
         <p>Welcome to my website, I hope you enjoy your stay!</p>
