@@ -22,9 +22,9 @@ class IndexPage extends Component {
         <h1>Hello.</h1>
         <p>Welcome to my website, I hope you enjoy your stay!</p>
         <Img fluid={data.siteImage.childImageSharp.fluid} />
-        <small>
-          <i>Walking on the Perito Moreno glacier in El Calafate, Argentina.</i>
-        </small>
+        <p class="photoCaption">
+          Walking on the Perito Moreno glacier in El Calafate, Argentina.
+        </p>
       </Layout>
     );
   }

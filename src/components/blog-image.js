@@ -1,17 +1,11 @@
 import React from "react";
 
 const BlogImage = ({ path, title, alt }) => {
-  const captionStyle = {
-    fontSize: "smaller",
-    fontStyle: "italic",
-    textAlign: "center"
-  };
-
   const tinyImage = `${path}?nf_resize=fit&w=200`;
-  const smallImage = `${path}?nf_resize=fit&w=400`;
-  const mediumImage = `${path}?nf_resize=fit&w=800`;
-  const largeImage = `${path}?nf_resize=fit&w=1200`;
-  const hugeImage = `${path}?nf_resize=fit&w=1600`;
+  const smallImage = `${path}?nf_resize=fit&w=350`;
+  const mediumImage = `${path}?nf_resize=fit&w=750`;
+  const largeImage = `${path}?nf_resize=fit&w=1100`;
+  const hugeImage = `${path}?nf_resize=fit&w=1500`;
 
   return (
     <div>
@@ -23,7 +17,7 @@ const BlogImage = ({ path, title, alt }) => {
         <source media="(min-width: 1800px)" data-srcset={hugeImage} />
         <img data-src={path} alt={alt} className="lazyload" />
       </picture>
-      <p style={captionStyle}>{title}</p>
+      <p class="photoCaption">{title}</p>
     </div>
   );
 };

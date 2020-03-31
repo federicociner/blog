@@ -1,3 +1,9 @@
 img {
   display: block;
 }
+
+.photoCaption {
+  font-size: smaller;
+  font-style: italic;
+  text-align: center;
+}
