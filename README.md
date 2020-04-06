@@ -2,7 +2,7 @@
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/d83e7b9a-4e4d-4dc5-a8ea-a75fc16a1276/deploy-status)](https://app.netlify.com/sites/federicociner/deploys)
 
-Code for my personal website at [federicociner.com](https://federicociner.com/), built with Gatsby and hosted on Netlify. Currently, it uses the following libraries:
+Source code for my personal website at [federicociner.com](https://federicociner.com/), built with Gatsby and hosted on Netlify. Currently, it uses the following libraries:
 
 - [KaTex](https://katex.org/) for typesetting math and scientific formulas
 - [lazySizes](https://afarkas.github.io/lazysizes/index.html) for responsive, lazy-loaded images in content pages
